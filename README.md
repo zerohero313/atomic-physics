@@ -69,9 +69,7 @@
 ### 方法二：在线访问（GitHub Pages）
 
 部署后可直接访问：
-```
-https://zerohero313.github.io/atomic-physics/
-```
+[https://zerohero313.github.io/atomic-physics/](https://zerohero313.github.io/atomic-physics/)
 
 部署步骤：
 1. 上传 `index.html` 和 `README.md` 到 GitHub 仓库
