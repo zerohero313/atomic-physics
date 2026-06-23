@@ -1,0 +1,2699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>原子物理学 · 交互式学习笔记（合辑）</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mhchem.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false}]})"></script>
+<style>
+:root{--bg:#f5f5f8;--cw:#fff;--t:#2d2d44;--tl:#6b6b80;--bo:#d8d8e4;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--t);line-height:1.7;padding:20px}
+.c{max-width:1100px;margin:0 auto}
+
+/* Global header */
+.gl-hd{background:linear-gradient(135deg,#0f1b4d,#3d3d6b);color:#fff;padding:34px 40px;border-radius:16px;margin-bottom:20px;position:relative;overflow:hidden}
+.gl-hd::after{content:'';position:absolute;top:-50%;right:-20%;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.03)}
+.gl-hd h1{font-size:1.7em;font-weight:700;letter-spacing:1px;margin-bottom:4px}
+.gl-hd .sub{font-size:.9em;opacity:.8}
+
+/* Chapter tab bar */
+.ch-tb{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:20px;background:#e4e4ea;border-radius:12px;padding:3px}
+.ch-btn{flex:1;min-width:80px;padding:10px 10px;border:none;background:transparent;border-radius:10px;cursor:pointer;font-size:.82em;font-weight:600;color:var(--tl);transition:all .15s;text-align:center;line-height:1.3}
+.ch-btn:hover{background:rgba(0,0,0,.05)}
+.ch-btn.active{background:var(--ch-color,#1a3a8a);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.ch-btn-sub{display:block;font-size:.68em;font-weight:400;opacity:.85;margin-top:1px}
+
+/* Chapter tab panels */
+.ch-tp{display:none}
+.ch-tp.active{display:block}
+
+/* Per-chapter header */
+.ch-hd{background:linear-gradient(135deg,var(--ch-pd,#0f1b4d),var(--ch-pm,#1a3a8a));color:#fff;padding:24px 30px;border-radius:14px;margin-bottom:22px;position:relative;overflow:hidden}
+.ch-hd::after{content:'';position:absolute;top:-40%;right:-15%;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.03)}
+.ch-hd h2{font-size:1.2em;font-weight:700;letter-spacing:.5px}
+.ch-st{margin-top:8px;display:flex;flex-wrap:wrap;gap:10px;font-size:.8em}
+.ch-st span{background:rgba(255,255,255,.12);padding:3px 12px;border-radius:20px}
+
+/* reused styles from original */
+.section-title{font-size:1.15em;font-weight:700;color:var(--ch-pm,#1a3a8a);padding-left:12px;border-left:4px solid var(--ch-pm,#1a3a8a);margin:24px 0 14px}
+
+.overview-container{border:1px solid var(--bo);border-radius:12px;padding:14px 16px 10px 16px;margin-bottom:20px;background:var(--cw)}
+.overview-title{font-size:1em;font-weight:700;color:var(--ch-pm,#1a3a8a);margin-bottom:10px}
+.overview{display:flex;flex-direction:column;gap:6px}
+.ov-card{border:1px solid #e8e8ee;border-radius:8px;overflow:hidden;background:#fafafc}
+.ov-head{padding:7px 12px;font-size:.9em;font-weight:600;color:var(--ch-pm,#1a3a8a);background:#f5f5f8;border-bottom:1px solid #eeeef0;display:flex;justify-content:space-between;align-items:center}
+.ov-count{font-size:.75em;font-weight:400;color:var(--tl);background:#eeeff2;padding:1px 8px;border-radius:8px}
+.ov-body{padding:6px 12px 8px 12px;font-size:.83em;line-height:1.7;color:#555}
+
+.sec{margin-bottom:12px}
+.sec-title{padding:10px 14px;background:var(--cw);border:1px solid var(--bo);border-radius:10px;cursor:pointer;font-size:.98em;font-weight:600;color:var(--ch-pm,#1a3a8a);user-select:none;transition:all .15s}
+.sec-title:hover{background:#f0f2f8}
+.sec.open .sec-title{border-radius:10px 10px 0 0}
+.sec-body{display:none;padding:12px;background:var(--cw);border:1px solid var(--bo);border-top:none;border-radius:0 0 10px 10px}
+.sec.open .sec-body{display:block}
+
+.kc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.kc-card{background:var(--cw);border-radius:10px;padding:12px;border:1px solid var(--bo);transition:all .2s}
+.kc-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.08);transform:translateY(-1px)}
+.kc-card .kc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.kc-card .kc-id{font-size:.72em;font-weight:700;color:var(--ch-pm,#1a3a8a);background:#eaeaF5;padding:2px 9px;border-radius:8px}
+.kc-card .kc-label{font-size:.92em;font-weight:600}
+.kc-card .kc-body{font-size:.83em;color:var(--tl);margin-top:5px;padding-top:5px;border-top:1px solid var(--bo)}
+.kc-card .kc-tags{display:flex;flex-wrap:wrap;gap:4px}
+.kc-card .kc-tags .tag{font-size:.7em;padding:1px 8px;border-radius:8px;font-weight:600}
+.tag-must{background:rgba(61,61,107,.1);color:var(--ch-pm,#1a3a8a)}
+.tag-nice{background:rgba(138,138,189,.15);color:#8a8abd}
+.tag-hub{background:rgba(212,165,74,.15);color:#a07a28}
+
+/* Quiz */
+.qc{background:var(--cw);border-radius:12px;padding:16px 18px;border:1px solid var(--bo);margin-bottom:12px}
+.qc .qh{display:flex;gap:8px;align-items:flex-start;margin-bottom:7px}
+.qc .qn{width:26px;height:26px;background:var(--ch-pm,#1a3a8a);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68em;font-weight:700;flex-shrink:0}
+.qc .qk{font-size:.7em;color:var(--tl);background:#eeeef5;padding:1px 8px;border-radius:6px}
+.qc .qt{font-weight:600;font-size:.9em;margin-bottom:9px}
+.qc .qo{display:flex;flex-direction:column;gap:5px;margin-bottom:7px}
+.qc .qopt{padding:7px 12px;border:1px solid var(--bo);border-radius:7px;cursor:pointer;font-size:.86em}
+.qc .qopt:hover{background:#f5f5fa}
+.qc .qopt.selected{background:#e8e0ff;border-color:var(--ch-pm,#1a3a8a)}
+.qc .qopt.correct{background:#e8f8ee!important;border-color:#4caf80!important}
+.qc .qopt.wrong{background:#fde8e8!important;border-color:#d45a5a!important}
+.qi input{padding:7px 12px;border:2px solid var(--bo);border-radius:7px;font-size:.9em;width:200px;outline:none}
+.qi input:focus{border-color:var(--ch-pm,#1a3a8a)}
+.qa{display:flex;gap:8px;margin-top:5px}
+.q-btn{padding:5px 14px;border:none;border-radius:7px;font-size:.83em;font-weight:600;cursor:pointer}
+.q-btn-submit{background:var(--ch-pm,#1a3a8a);color:#fff}
+.q-btn-submit:hover{opacity:.9}
+.q-btn-show{background:#e4e4ee;color:var(--t)}
+.qas{background:#f0f4f8;border-left:3px solid var(--ch-pm,#1a3a8a);padding:7px 10px;margin-top:6px;border-radius:5px;font-size:.84em}
+.ft{text-align:center;padding:20px;color:var(--tl);font-size:.82em}
+/* Inner tab (知识清单/章节测试) */
+.inner-tb{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:18px;background:#e4e4ea;border-radius:10px;padding:3px}
+.inner-btn{flex:1;min-width:80px;padding:10px 14px;border:none;background:transparent;color:var(--tl);font-size:.85em;font-weight:600;border-radius:8px;cursor:pointer;transition:all .15s}
+.inner-btn:hover{background:rgba(0,0,0,.05)}
+.inner-btn.active{background:var(--ch-pm,#1a3a8a);color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.inner-tp{display:none}
+.inner-tp.active{display:block}
+@media(max-width:600px){.gl-hd{padding:20px 18px}.gl-hd h1{font-size:1.3em}.ch-btn{min-width:60px;font-size:.75em;padding:8px 6px}.ch-btn-sub{font-size:.64em}.ch-hd{padding:18px 20px}.kc-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div class="c">
+
+<div class="gl-hd">
+  <h1>原子物理学</h1>
+  <div class="sub">交互式学习笔记（合辑） — 共7章 · 167道自测题</div>
+</div>
+
+<div class="ch-tb">
+<button class="ch-btn active" data-ch="ch2" style="--ch-color:#1a3a8a" onclick="switchChapter('ch2')">第二章<span class="ch-btn-sub">原子的玻尔模型</span></button><button class="ch-btn" data-ch="ch3" style="--ch-color:#007766" onclick="switchChapter('ch3')">第三章<span class="ch-btn-sub">量子力学导论</span></button><button class="ch-btn" data-ch="ch4" style="--ch-color:#6b3fa0" onclick="switchChapter('ch4')">第四章<span class="ch-btn-sub">碱金属原子</span></button><button class="ch-btn" data-ch="ch5" style="--ch-color:#2d8a4e" onclick="switchChapter('ch5')">第五章<span class="ch-btn-sub">多电子原子</span></button><button class="ch-btn" data-ch="ch6" style="--ch-color:#c07020" onclick="switchChapter('ch6')">第六章<span class="ch-btn-sub">磁场中的原子</span></button><button class="ch-btn" data-ch="ch7" style="--ch-color:#b03030" onclick="switchChapter('ch7')">第七章<span class="ch-btn-sub">原子核物理概论</span></button><button class="ch-btn" data-ch="ch8" style="--ch-color:#3d3d6b" onclick="switchChapter('ch8')">第八章<span class="ch-btn-sub">X射线</span></button>
+</div>
+
+
+  <div class="ch-tp active" id="ch-ch2" style="--ch-pd:#0f1b4d;--ch-pm:#1a3a8a">
+    <div class="ch-hd">
+      <h2>第二章 第二章 原子的玻尔模型</h2>
+      <div class="ch-st"><span>18 个KCs</span><span>41 道自测题</span></div>
+    </div>
+
+    <div class="inner-tb">
+      <button class="inner-btn active" onclick="innerTab('ch2','kc')">📖 知识清单</button>
+      <button class="inner-btn" onclick="innerTab('ch2','quiz')">📝 章节测试</button>
+    </div>
+
+    <div class="inner-tp active" id="kc-ch2">
+      <div class="overview-container">
+    <div class="overview-title">📖 本章总览</div>
+    <div class="overview"><div class="ov-card"><div class="ov-head">§2.1 氢原子光谱 <span class="ov-count">5个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 光谱的基本概念<br>&nbsp;&nbsp;&nbsp;· 氢原子光谱的实验规律<br>&nbsp;&nbsp;&nbsp;· 巴尔末公式与光谱项<br>&nbsp;&nbsp;&nbsp;· 里德伯常量<br>&nbsp;&nbsp;&nbsp;· 莱曼系、帕邢系等线系</div></div>
+<div class="ov-card"><div class="ov-head">§2.2 玻尔理论 <span class="ov-count">7个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 经典理论的困难<br>&nbsp;&nbsp;&nbsp;· 玻尔定态假设<br>&nbsp;&nbsp;&nbsp;· 玻尔跃迁假设<br>&nbsp;&nbsp;&nbsp;· 玻尔量子化条件<br>&nbsp;&nbsp;&nbsp;· 氢原子的轨道半径与能级<br>&nbsp;&nbsp;&nbsp;· 玻尔半径<br>&nbsp;&nbsp;&nbsp;· 类氢离子的推广</div></div>
+<div class="ov-card"><div class="ov-head">§2.3 弗兰克-赫兹实验 <span class="ov-count">1个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 弗兰克-赫兹实验</div></div>
+<div class="ov-card"><div class="ov-head">§2.4 氢原子能量的相对论效应 <span class="ov-count">2个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 氢原子能量的相对论修正<br>&nbsp;&nbsp;&nbsp;· 索末菲椭圆轨道理论</div></div>
+<div class="ov-card"><div class="ov-head">§2.5 原子空间取向量子化 <span class="ov-count">2个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 空间取向量子化<br>&nbsp;&nbsp;&nbsp;· 斯特恩-盖拉赫实验</div></div>
+<div class="ov-card"><div class="ov-head">§2.6 对应原理 <span class="ov-count">1个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 对应原理</div></div>
+</div>
+  </div>
+
+  <div class="sec open">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §2.1 氢原子光谱</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.1</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">光谱的基本概念</div>
+          <div class="kc-body"><span class="kc-type">概念</span>
+<p>📄 <strong>PPT第4-5页</strong></p>
+<p><strong>公式：</strong>\( \text{光谱仪：光源} \to \text{分光器(棱镜/光栅)} \to \text{纪录仪(感光底片/光电纪录器)} \)</p>
+<p><strong>核心：</strong>光谱是光的频率(波长)成分与强度分布图，分为线状光谱(原子发射)、带状光谱(分子)、连续光谱(固体热辐射)和吸收光谱，是研究原子结构的重要途径。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.2</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">氢原子光谱的实验规律</div>
+          <div class="kc-body"><span class="kc-type">事实</span>
+<p>📄 <strong>PPT第6页</strong></p>
+<p><strong>公式：</strong>\( λ_{\text{H}α}=6563\text{Å}, λ_{\text{H}β}=4861\text{Å}, λ_{\text{H}γ}=4341\text{Å}, λ_{\text{H}\delta}=4102\text{Å} \)</p>
+<p><strong>核心：</strong>氢原子光谱在不同区域均有许多谱线，构成有规律的系统。巴耳末系(可见区)包含Hα~Hδ等谱线，是氢原子光谱实验规律的基础。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.3</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">巴尔末公式与光谱项</div>
+          <div class="kc-body"><span class="kc-type">原理</span>
+<p>📄 <strong>PPT第8-9页</strong></p>
+<p><strong>公式：</strong>\( ν=R_H(\frac{1}{2^2}-\frac{1}{n^2}) \)（巴耳末系）；光谱项 \( T(m)=\frac{R_H}{m^2} \)；广义 \( ν=R_H(\frac{1}{m^2}-\frac{1}{n^2}) \)</p>
+<p><strong>核心：</strong>氢原子光谱三条规律——线状光谱有确定位置；谱线构成线系且各线系光谱项相同；每谱线波数为二光谱项之差。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.4</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">里德伯常量</div>
+          <div class="kc-body"><span class="kc-type">事实</span>
+<p>📄 <strong>PPT第17、20页</strong></p>
+<p><strong>公式：</strong>\( R_H=1.097×10^7\text{m}^{-1} \)；\( R_∞=\frac{2\pi^2 me^4}{(4\pi\varepsilon_0)^2 h^3} \)；核修正 \( R_A=\frac{R_∞}{1+m/M_A} \)</p>
+<p><strong>核心：</strong>里德伯常量实验值约1.097×10⁷ m⁻¹。玻尔理论推导值与实验值符合很好；考虑核运动需用折合质量修正，不同原子R略有差异。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.5</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">莱曼系、帕邢系等线系</div>
+          <div class="kc-body"><span class="kc-type">事实</span>
+<p>📄 <strong>PPT第8页</strong></p>
+<p><strong>公式：</strong>\( ν=R_H(\frac{1}{n_1^2}-\frac{1}{n_2^2}) \)</p>
+<p><strong>核心：</strong>五个线系：莱曼系(n₁=1, 紫外)、巴耳末系(n₁=2, 可见)、帕邢系(n₁=3, 红外)、布拉开系(n₁=4, 红外)、芬德系(n₁=5, 红外)。n₁越小，波长越短(频率越高)。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      <div class="kc-area">
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §2.2 玻尔理论</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.6</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">经典理论的困难</div>
+          <div class="kc-body"><span class="kc-type">概念</span>
+<p>📄 <strong>PPT第11-12页</strong></p>
+<p><strong>公式：</strong>\( F=\frac{1}{4\pi\varepsilon_0}\frac{e^2}{r^2}=m\frac{v^2}{r} \)，能量 \( E=\frac{1}{2}mv^2-\frac{1}{4\pi\varepsilon_0}\frac{e^2}{r} \)</p>
+<p><strong>核心：</strong>经典理论两大困难——加速电子连续辐射导致原子不稳定(原子崩塌)；辐射连续电磁波与观测到的线状光谱矛盾。玻尔理论由此应运而生。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.7</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">玻尔定态假设</div>
+          <div class="kc-body"><span class="kc-type">原理</span>
+<p>📄 <strong>PPT第13页</strong></p>
+<p><strong>公式：</strong>原子有一系列定态，每个定态对应确定的能量值 \( E_n \)</p>
+<p><strong>核心：</strong>氢原子中电子只能在一系列分立轨道上绕核作圆周运动且无电磁辐射，原子处于稳定状态——定态。此假设解决了原子的稳定性问题。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.8</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">玻尔跃迁假设</div>
+          <div class="kc-body"><span class="kc-type">原理</span>
+<p>📄 <strong>PPT第13-14页</strong></p>
+<p><strong>公式：</strong>\( hν = E_n - E_m \)（发射）；\( hν = E_m - E_n \)（吸收）</p>
+<p><strong>核心：</strong>原子在不同定态之间跃迁时，以电磁辐射形式吸收或发射能量，辐射频率由两定态能级差决定。因定态能量分立，辐射频率也分立，解决了光谱线状性问题。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.9</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">玻尔量子化条件</div>
+          <div class="kc-body"><span class="kc-type">原理</span>
+<p>📄 <strong>PPT第15页</strong></p>
+<p><strong>公式：</strong>\( mvr = nħ = n\frac{h}{2\pi}, n=1,2,3,\dots \)；\( a_1 = \frac{4\pi\varepsilon_0 h^2}{4\pi^2 m e^2}=0.529×10^{-10}\text{m} \)</p>
+<p><strong>核心：</strong>电子轨道角动量只能取\(h/2\pi\)的整数倍，确定了允许的电子轨道。量子化条件与经典力学的结合是玻尔半经典理论的核心特征。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.10</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">氢原子的轨道半径与能级</div>
+          <div class="kc-body"><span class="kc-type">方法</span>
+<p>📄 <strong>PPT第16页</strong></p>
+<p><strong>公式：</strong>\( r_n = n^2 a_1 \)（轨道半径）；\( E_n = -\frac{13.6}{n^2}\text{eV} \)（能级）</p>
+<p><strong>核心：</strong>氢原子的能量、角动量及电子运动轨道都是量子化的。轨道半径与n²成正比，能级与1/n²成正比，n=1为基态(E₁=-13.6eV)，电离能13.6eV。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.11</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">玻尔半径</div>
+          <div class="kc-body"><span class="kc-type">事实</span>
+<p>📄 <strong>PPT第15、43页</strong></p>
+<p><strong>公式：</strong>\( a_1 = \frac{4\pi\varepsilon_0 h^2}{4\pi^2 m e^2}=0.529×10^{-10}\text{m}=0.529\text{Å} \)</p>
+<p><strong>核心：</strong>玻尔半径是氢原子基态(n=1)电子轨道半径，约0.529×10⁻¹⁰ m，是原子尺度的特征长度。类氢离子中基态轨道半径为a₁/Z。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.12</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">类氢离子的推广</div>
+          <div class="kc-body"><span class="kc-type">方法</span>
+<p>📄 <strong>PPT第19-20页</strong></p>
+<p><strong>公式：</strong>\( r_n = \frac{n^2 a_1}{Z} \)；\( E_n = -\frac{13.6 Z^2}{n^2}\text{eV} \)；\( ν=Z^2 R(\frac{1}{m^2}-\frac{1}{n^2}) \)</p>
+<p><strong>核心：</strong>类氢离子是核外只有一个电子的原子体系(如He⁺、Li²⁺)。玻尔理论可推广：轨道半径缩小Z倍，能级增大Z²倍，光谱公式乘Z²因子。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §2.3 弗兰克-赫兹实验</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.13</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">弗兰克-赫兹实验</div>
+          <div class="kc-body"><span class="kc-type">方法</span>
+<p>📄 <strong>PPT第22-25页</strong></p>
+<p><strong>公式：</strong>Hg原子第一激发电势 \( V=4.9\text{V} \)，跃迁光子波长 \( λ=\frac{hc}{4.9\text{eV}}=2.5×10^{-7}\text{m} \)</p>
+<p><strong>核心：</strong>用电子碰撞原子方法独立验证原子能级量子化。加速电子与Hg原子碰撞，电压达4.9V时电流骤降，表明Hg原子存在4.9eV的第一激发态，与光谱结果一致。弗兰克和赫兹获1925年Nobel奖。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §2.4 氢原子能量的相对论效应</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.14</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">氢原子能量的相对论修正</div>
+          <div class="kc-body"><span class="kc-type">原理</span>
+<p>📄 <strong>PPT第32、43页</strong></p>
+<p><strong>公式：</strong>精细结构常数 \( α = \frac{e^2}{4\pi\varepsilon_0ħ c}≈\frac{1}{137} \)；修正量级 \( \simα^2 E_n \)</p>
+<p><strong>核心：</strong>考虑相对论效应后，不同角量子数的能级不再简并，产生精细结构分裂。α是联系电动力学(e)、量子力学(h)和相对论(c)的无量纲常数。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.15</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">索末菲椭圆轨道理论</div>
+          <div class="kc-body"><span class="kc-type">概念</span>
+<p>📄 <strong>PPT第27-30页</strong></p>
+<p><strong>公式：</strong>量子化通则 \( \oint pdq = nh \)；椭圆长半轴 \( a∝ n^2 \)，短半轴 \( b∝ nn_\phi \)</p>
+<p><strong>核心：</strong>索末菲将玻尔圆轨道推广为椭圆轨道，引入角量子数。同n不同l的轨道形状不同但能量相同(n重简并)，引入相对论修正后简并消除。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §2.5 原子空间取向量子化</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.16</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">空间取向量子化</div>
+          <div class="kc-body"><span class="kc-type">概念</span>
+<p>📄 <strong>PPT第34-36页</strong></p>
+<p><strong>公式：</strong>玻尔磁子 \( μ_B=\frac{eh}{4\pi m}=9.27×10^{-24}\text{J/T} \)；\( μ_z=-m_l g_l μ_B \)</p>
+<p><strong>核心：</strong>原子磁矩在外磁场中只能取某些分立方向。磁量子数m_l决定磁矩z分量，取值为-l,...,0,...,+l共(2l+1)种，对应轨道角动量的空间取向分立。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.17</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">斯特恩-盖拉赫实验</div>
+          <div class="kc-body"><span class="kc-type">方法</span>
+<p>📄 <strong>PPT第35-36页</strong></p>
+<p><strong>公式：</strong>原子在非均匀磁场中受力 \( F = μ_z\frac{∂ B}{∂ Z} \)</p>
+<p><strong>核心：</strong>Ag原子束通过非均匀磁场后屏上出现两条分立斑纹，证实空间取向量子化。但基态Ag(l=0)预期不分裂却观察到分裂，催生了1925年电子自旋的提出。斯特恩获1943年Nobel奖。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §2.6 对应原理</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC2.18</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">对应原理</div>
+          <div class="kc-body"><span class="kc-type">原理</span>
+<p>📄 <strong>PPT第37-39页</strong></p>
+<p><strong>公式：</strong>当 \( n\to∞ \)，量子辐射频率 \( ν_{\text{量子}}=\frac{E_{n+1}-E_n}{h} \) 趋近经典轨道频率 \( f_{\text{经典}} \)</p>
+<p><strong>核心：</strong>大量子数极限下量子物理趋同于经典物理。普朗克(1906)首先发现，玻尔(1913/1920)完善命名。当n→∞时氢原子能级趋于连续，量子辐射频率趋近经典轨道频率。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
+
+    <div class="inner-tp" id="quiz-ch2">
+      <div class="tp" id="quiz">
+  <div class="section-title">章节测试（30题）</div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">1</div><span class="qk">KC2.1 [选择]</span></div>
+      <div class="qt">光谱是研究原子结构的重要途径。下列哪种说法是正确的？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 发射光谱分为线状光谱和吸收光谱</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 线状光谱是原子发射谱的特征</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 连续光谱只存在于紫外区</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 带状光谱由原子产生</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">2</div><span class="qk">KC2.1 [选择]</span></div>
+      <div class="qt">光谱仪的核心部件包括什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 光源、分光器、记录仪</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 透镜、光栅、屏幕</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 激光器、棱镜、探测器</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 光纤、单色仪、计算机</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">3</div><span class="qk">KC2.2 [选择]</span></div>
+      <div class="qt">氢原子巴尔末系位于哪个光谱区域？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 紫外区</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 可见区和近紫外区</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 红外区</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 远红外区</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="紫外；红外">
+      <div class="qh"><div class="qn">4</div><span class="qk">KC2.2 [填空]</span></div>
+      <div class="qt">氢原子光谱中，莱曼系位于____区，帕邢系位于____区。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="C">
+      <div class="qh"><div class="qn">5</div><span class="qk">KC2.3 [选择]</span></div>
+      <div class="qt">氢原子光谱的波数可以表达为两个____之差。</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 波长</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 频率</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 光谱项</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 能级</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="ν=R(1/2²-1/3²)=1.097×10⁷×5/36=1.524×10⁶m⁻¹，λ=1/ν=656.3nm">
+      <div class="qh"><div class="qn">6</div><span class="qk">KC2.3 [计算]</span></div>
+      <div class="qt">已知氢原子里德伯常量\(R=1.097\times 10^7\ \text{m}^{-1}\)，计算巴耳末系第一条谱线\(\text{H}_\alpha(n=3\to 2)\)的波长。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="(1)光谱是线状的，有确定位置；(2)谱线构成一系列线系，每个线系可用一个公式表示，不同线系光谱项相同；(3)每谱线波数可表达为二光谱项之差。光谱项定义为T=R/m²">
+      <div class="qh"><div class="qn">7</div><span class="qk">KC2.3 [简答]</span></div>
+      <div class="qt">简述氢原子光谱的三条基本规律，并说明光谱项的定义。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="1.097×10⁷">
+      <div class="qh"><div class="qn">8</div><span class="qk">KC2.4 [填空]</span></div>
+      <div class="qt">氢原子里德伯常量R_H的值为____m⁻¹。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="玻尔推导时假设核不动，实际上核质量有限。需用折合质量代替电子质量。不同原子质量不同，因此R略有不同。">
+      <div class="qh"><div class="qn">9</div><span class="qk">KC2.4 [简答]</span></div>
+      <div class="qt">为什么不同原子的里德伯常量略有不同？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="D">
+      <div class="qh"><div class="qn">10</div><span class="qk">KC2.5 [选择]</span></div>
+      <div class="qt">以下哪个不是氢原子光谱的线系？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 莱曼系</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 巴耳末系</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 帕邢系</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 夫琅禾费系</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="(1)莱曼系(紫外)→n=1；(2)巴耳末系(可见)→n=2；(3)帕邢系(红外)→n=3；(4)布拉开系(红外)→n=4；(5)芬德系(红外)→n=5">
+      <div class="qh"><div class="qn">11</div><span class="qk">KC2.5 [简答]</span></div>
+      <div class="qt">列出氢原子光谱的五个线系及其所在的波段。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="(1)电子绕核做加速运动辐射电磁波，能量损失导致原子崩塌；(2)辐射连续电磁波与线状光谱不符。">
+      <div class="qh"><div class="qn">12</div><span class="qk">KC2.6 [简答]</span></div>
+      <div class="qt">经典理论在解释氢原子结构时遇到了哪两个根本性困难？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="D">
+      <div class="qh"><div class="qn">13</div><span class="qk">KC2.7 [选择]</span></div>
+      <div class="qt">玻尔理论的三个假设不包括以下哪项？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 定态假设</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 跃迁假设</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 量子化条件</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 轨道共面假设</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="定态假设：电子只能在一系列分立轨道上运动且不辐射电磁波。解决了原子的稳定性问题。">
+      <div class="qh"><div class="qn">14</div><span class="qk">KC2.7 [简答]</span></div>
+      <div class="qt">简述玻尔定态假设的内容及其解决的问题。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="C">
+      <div class="qh"><div class="qn">15</div><span class="qk">KC2.8 [选择]</span></div>
+      <div class="qt">玻尔跃迁假设中，原子辐射的频率由什么决定？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 电子轨道半径</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 电子运动频率</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 两定态间的能量差</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 核电荷数</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="ΔE=-13.6(1/4²-1/2²)=-13.6(1/16-1/4)=2.55eV">
+      <div class="qh"><div class="qn">16</div><span class="qk">KC2.9 [计算]</span></div>
+      <div class="qt">氢原子从n=4跃迁到n=2时释放的光子能量为多少eV？（基态能量-13.6eV）</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="电子轨道角动量必须满足mvr=nħ(n=1,2,3...)。确定了哪些轨道是允许的，能量和轨道都是量子化的。">
+      <div class="qh"><div class="qn">17</div><span class="qk">KC2.9 [简答]</span></div>
+      <div class="qt">玻尔量子化条件的内容及其意义是什么？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">18</div><span class="qk">KC2.10 [选择]</span></div>
+      <div class="qt">氢原子n=2能级的能量为多少？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. -6.8eV</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. -3.4eV</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. -1.51eV</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. -13.6eV</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="ΔE=-13.6(1/16-1/4)=2.55eV，波长λ=hc/ΔE=486.1nm">
+      <div class="qh"><div class="qn">19</div><span class="qk">KC2.10 [计算]</span></div>
+      <div class="qt">计算氢原子从n=4跃迁到n=2时释放的光子能量（单位eV）。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="0.529×10⁻¹⁰">
+      <div class="qh"><div class="qn">20</div><span class="qk">KC2.11 [填空]</span></div>
+      <div class="qt">玻尔半径a₀的值为____m。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="类氢离子(Z>1)能量为Eₙ=-13.6Z²/n² eV，轨道半径为rₙ=n²a₀/Z。核电荷数增大使能级降低、轨道缩小。">
+      <div class="qh"><div class="qn">21</div><span class="qk">KC2.12 [简答]</span></div>
+      <div class="qt">类氢离子的玻尔公式与氢原子有何异同？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">22</div><span class="qk">KC2.13 [选择]</span></div>
+      <div class="qt">弗朗克-赫兹实验证实了什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 电子的波动性</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 原子内能级的量子化</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 电子的自旋</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 原子核式结构</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="用加速电子轰击汞原子，电子动能达到4.9eV时与原子非弹性碰撞失去能量，电流突降。说明汞原子第一激发能为4.9eV，证实能级量子化。">
+      <div class="qh"><div class="qn">23</div><span class="qk">KC2.13 [简答]</span></div>
+      <div class="qt">简述弗朗克-赫兹实验的基本原理。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="考虑相对论效应后，同一主量子数n不同角量子数l的能级发生微小分裂。引入精细结构常数α≈1/137，修正量级α²Eₙ。">
+      <div class="qh"><div class="qn">24</div><span class="qk">KC2.14 [简答]</span></div>
+      <div class="qt">氢原子能量的相对论修正如何影响能级结构？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="索末菲引入椭圆轨道，用主量子数n和角量子数k描述。同一n有n个不同椭圆轨道对应同一能量，引入相对论修正后简并消除。">
+      <div class="qh"><div class="qn">25</div><span class="qk">KC2.15 [简答]</span></div>
+      <div class="qt">索末菲椭圆轨道理论与玻尔圆轨道理论的主要区别是什么？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">26</div><span class="qk">KC2.16 [选择]</span></div>
+      <div class="qt">空间取向量子化指的是什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 轨道半径取分立值</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 角动量在空间的分量取分立值</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 能量取分立值</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 电子只能在特定平面上运动</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="-ħ, 0, +ħ">
+      <div class="qh"><div class="qn">27</div><span class="qk">KC2.16 [填空]</span></div>
+      <div class="qt">l=1的电子，角动量在z方向的可能分量值为____。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">28</div><span class="qk">KC2.17 [选择]</span></div>
+      <div class="qt">斯特恩-盖拉赫实验证明了什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 原子核式结构</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 空间取向量子化</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 电子的波动性</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 能级量子化</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="在大量子数极限下，量子物理的预测应趋同于经典物理。即当n→∞时，量子化的分立能级趋于连续，量子跃迁频率趋于经典辐射频率。">
+      <div class="qh"><div class="qn">29</div><span class="qk">KC2.18 [简答]</span></div>
+      <div class="qt">玻尔的对应原理说的是什么？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="h→0；n→∞">
+      <div class="qh"><div class="qn">30</div><span class="qk">KC2.18 [填空]</span></div>
+      <div class="qt">对应原理的两种表述：普朗克认为____时量子趋于经典；玻尔认为____时量子趋于经典。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+</div>
+    </div>
+  </div>
+  <div class="ch-tp" id="ch-ch3" style="--ch-pd:#003344;--ch-pm:#007766">
+    <div class="ch-hd">
+      <h2>第三章 第三章 量子力学导论</h2>
+      <div class="ch-st"><span>16 个KCs</span><span>31 道自测题</span></div>
+    </div>
+
+    <div class="inner-tb">
+      <button class="inner-btn active" onclick="innerTab('ch3','kc')">📖 知识清单</button>
+      <button class="inner-btn" onclick="innerTab('ch3','quiz')">📝 章节测试</button>
+    </div>
+
+    <div class="inner-tp active" id="kc-ch3">
+      <div class="overview-container">
+    <div class="overview-title">📖 本章总览</div>
+    <div class="overview"><div class="ov-card"><div class="ov-head">§3.1 物质的二象性 <span class="ov-count">7个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 光的波粒二象性<br>&nbsp;&nbsp;&nbsp;· 德布罗意波与物质波<br>&nbsp;&nbsp;&nbsp;· 德布罗意关系<br>&nbsp;&nbsp;&nbsp;· 测不准原理(不确定原理)<br>&nbsp;&nbsp;&nbsp;· 波函数的统计解释(玻恩)<br>&nbsp;&nbsp;&nbsp;· 波函数的标准条件<br>&nbsp;&nbsp;&nbsp;· 玻尔量子化条件的波函数诠释</div></div>
+<div class="ov-card"><div class="ov-head">§3.2 薛定谔方程 <span class="ov-count">6个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 薛定谔方程的提出<br>&nbsp;&nbsp;&nbsp;· 算符(哈密顿算符、动量算符)<br>&nbsp;&nbsp;&nbsp;· 定态薛定谔方程<br>&nbsp;&nbsp;&nbsp;· 一维无限深势阱<br>&nbsp;&nbsp;&nbsp;· 一维简谐振子<br>&nbsp;&nbsp;&nbsp;· 隧道效应</div></div>
+<div class="ov-card"><div class="ov-head">§3.3 量子力学对氢原子的描述 <span class="ov-count">3个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 氢原子的量子力学处理<br>&nbsp;&nbsp;&nbsp;· 量子数(n,l,m,s)<br>&nbsp;&nbsp;&nbsp;· 概率密度与电子云</div></div>
+</div>
+  </div>
+
+  <div class="sec open">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §3.1 物质的二象性</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.1</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">光的波粒二象性</div>
+          <div class="kc-body">
+            <span class="kc-type">概念</span>
+            <p>📄 <strong>PPT第4页</strong></p>
+            <p><strong>公式：</strong>\( E = hν \), \( p = \frac{h}{λ} \)</p>
+            <p><strong>核心：</strong>光既具有波动性（干涉、衍射、偏振）又具有粒子性（黑体辐射、光电效应），波粒二象性是光的本质属性。</p>
+          </div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.2</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">德布罗意波与物质波</div>
+          <div class="kc-body">
+            <span class="kc-type">概念</span>
+            <p>📄 <strong>PPT第5页</strong></p>
+            <p><strong>公式：</strong>\( λ = \frac{h}{p} \)</p>
+            <p><strong>核心：</strong>一切实物粒子都具有波粒二象性，与实物粒子相联系的波称为物质波（德布罗意波）。</p>
+          </div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.3</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">德布罗意关系</div>
+          <div class="kc-body">
+            <span class="kc-type">原理</span>
+            <p>📄 <strong>PPT第5页</strong></p>
+            <p><strong>公式：</strong>\( E = hν \), \( p = \frac{h}{λ} \)</p>
+            <p><strong>核心：</strong>德布罗意关系是联系粒子性（能量E、动量p）和波动性（频率ν、波长λ）的桥梁，是自然界对称性的体现。</p>
+          </div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.4</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">测不准原理(不确定原理)</div>
+          <div class="kc-body">
+            <span class="kc-type">原理</span>
+            <p>📄 <strong>PPT第6页</strong></p>
+            <p><strong>公式：</strong>\( Δ x · Δ p_x \ge \frac{ħ}{2} \), \( Δ E · Δ t \ge \frac{ħ}{2} \)</p>
+            <p><strong>核心：</strong>不可能同时精确测量粒子的位置和动量（或能量和时间），这是微观粒子的内禀属性，非测量技术限制。</p>
+          </div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.5</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">波函数的统计解释(玻恩)</div>
+          <div class="kc-body">
+            <span class="kc-type">概念</span>
+            <p>📄 <strong>PPT第10页</strong></p>
+            <p><strong>公式：</strong>\( |\psi(\mathbf{r},t)|^2 \) 为概率密度, \( \int |\psi|^2 d\tau = 1 \)</p>
+            <p><strong>核心：</strong>波函数模的平方表示单位体积中发现粒子的概率，波函数本身无直接物理意义（玻恩统计解释）。</p>
+          </div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.6</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">波函数的标准条件</div>
+          <div class="kc-body">
+            <span class="kc-type">事实</span>
+            <p>📄 <strong>PPT第11页</strong></p>
+            <p><strong>公式：</strong>\( \int_{-∞}^{∞} |\psi|^2 d\tau = 1 \)（归一化）</p>
+            <p><strong>核心：</strong>波函数必须满足四个标准条件：连续性、单值性、有限性、归一化，确保概率解释自洽。</p>
+          </div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.16</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">玻尔量子化条件的波函数诠释</div>
+          <div class="kc-body">
+            <span class="kc-type">概念</span>
+            <p>📄 <strong>PPT第12页</strong></p>
+            <p><strong>公式：</strong>\( 2\pi r = nλ \), \( n=1,2,3,\dots \)</p>
+            <p><strong>核心：</strong>玻尔量子化条件等价于轨道周长等于物质波波长的整数倍，即电子在轨道上形成驻波。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+      <div class="kc-area">
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §3.2 薛定谔方程</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.7</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">薛定谔方程的提出</div>
+          <div class="kc-body">
+            <span class="kc-type">原理</span>
+            <p>📄 <strong>PPT第13-14页</strong></p>
+            <p><strong>公式：</strong>\( iħ\frac{∂\psi}{∂ t} = \hat{H}\psi \)</p>
+            <p><strong>核心：</strong>薛定谔方程是量子力学的基本方程，描述微观粒子状态随时间的变化规律，地位等同于经典力学中的牛顿定律。</p>
+          </div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.8</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">算符(哈密顿算符、动量算符)</div>
+          <div class="kc-body">
+            <span class="kc-type">概念</span>
+            <p>📄 <strong>PPT第14-15页</strong></p>
+            <p><strong>公式：</strong>\( \hat{H} = -\frac{ħ^2}{2m}
+abla^2 + V \), \( \hat{\mathbf{p}} = -i\hbar\nabla \)</p>
+            <p><strong>核心：</strong>哈密顿算符对应体系总能量，动量算符对应动量；算符只有作用于波函数才有物理意义。</p>
+          </div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.9</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">定态薛定谔方程</div>
+          <div class="kc-body">
+            <span class="kc-type">方法</span>
+            <p>📄 <strong>PPT第16页</strong></p>
+            <p><strong>公式：</strong>\( \hat{H}\psi(\mathbf{r}) = E\psi(\mathbf{r}) \), \( \psi(\mathbf{r},t) = \psi(\mathbf{r})e^{-iEt/ħ} \)</p>
+            <p><strong>核心：</strong>势能仅是坐标函数时体系能量有确定值（定态），定态方程即能量本征方程；波函数可分离时间与空间变量。</p>
+          </div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.10</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">一维无限深势阱</div>
+          <div class="kc-body">
+            <span class="kc-type">方法</span>
+            <p>📄 <strong>PPT第18-21页</strong></p>
+            <p><strong>公式：</strong>\( E_n = \frac{\pi^2ħ^2}{2ma^2}n^2 \), \( \psi_n(x) = \sqrt{\frac{2}{a}}\sin\frac{n\pi}{a}(x+\frac{a}{2}) \)</p>
+            <p><strong>核心：</strong>能量量子化E_n∝n²，波函数为驻波形式，节点数随n增加，具有确定的宇称（奇偶性）。</p>
+          </div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.11</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">一维简谐振子</div>
+          <div class="kc-body">
+            <span class="kc-type">方法</span>
+            <p>📄 <strong>PPT第24-26页</strong></p>
+            <p><strong>公式：</strong>\( E_n = (n + \frac{1}{2})ħω \), \( n=0,1,2,\dots \)</p>
+            <p><strong>核心：</strong>能级等间距分布（间距ħω），基态能量不为零（零点能E₀=½ħω），波函数由Hermite多项式描述。</p>
+          </div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.12</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">隧道效应</div>
+          <div class="kc-body">
+            <span class="kc-type">概念</span>
+            <p>📄 <strong>PPT第22-23页</strong></p>
+            <p><strong>公式：</strong>\( T ∝ e^{-2α a} \), \( α = \sqrt{2m(V_0-E)}/ħ \)</p>
+            <p><strong>核心：</strong>能量低于势垒的粒子有一定概率贯穿势垒（量子隧穿），这是经典力学无法解释的纯量子效应。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §3.3 量子力学对氢原子的描述</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.13</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">氢原子的量子力学处理</div>
+          <div class="kc-body">
+            <span class="kc-type">方法</span>
+            <p>📄 <strong>PPT第27-31页</strong></p>
+            <p><strong>公式：</strong>\( E_n = -\frac{13.6}{n^2}\text{eV} \), \( \psi_{nlm}(r,θ,\varphi) = R_{nl}(r)Y_{lm}(θ,\varphi) \)</p>
+            <p><strong>核心：</strong>氢原子薛定谔方程可严格求解，能级与玻尔理论一致，自然得出角动量量子化和空间量子化。</p>
+          </div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.14</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">量子数(n,l,m,s)</div>
+          <div class="kc-body">
+            <span class="kc-type">事实</span>
+            <p>📄 <strong>PPT第30页</strong></p>
+            <p><strong>公式：</strong>\( n=1,2,3,\dots \); \( l=0,1,\dots,n-1 \); \( m=-l,\dots,0,\dots,l \); \( s=\frac{1}{2} \)</p>
+            <p><strong>核心：</strong>四个量子数完全描述电子状态：n决定能量，l决定轨道角动量，m决定空间取向，s为内禀自旋。</p>
+          </div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC3.15</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">概率密度与电子云</div>
+          <div class="kc-body">
+            <span class="kc-type">概念</span>
+            <p>📄 <strong>PPT第35-37页</strong></p>
+            <p><strong>公式：</strong>\( P(r,θ,\varphi) = |\psi_{nlm}(r,θ,\varphi)|^2 \)</p>
+            <p><strong>核心：</strong>电子云是概率密度|ψ|²的直观表示，不同于玻尔的确定轨道——量子力学认为各位置都有一定概率发现电子。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
+
+    <div class="inner-tp" id="quiz-ch3">
+      <div class="tp" id="quiz">
+  <div class="section-title">章节测试（31题）</div>
+    <div class="qc" data-a="C">
+      <div class="qh"><div class="qn">1</div><span class="qk">KC3.1 [选择]</span></div>
+      <div class="qt">下列哪个现象是光的波动性的证据？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 光电效应</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 黑体辐射</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 光的干涉和衍射</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 康普顿散射</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">2</div><span class="qk">KC3.1 [选择]</span></div>
+      <div class="qt">光子的能量E和动量p分别与光的哪些物理量有关？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. E与波长有关，p与频率有关</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. E与频率有关，p与波长有关</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. E和p均与频率有关</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. E和p均与波长有关</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">3</div><span class="qk">KC3.2 [选择]</span></div>
+      <div class="qt">德布罗意波(物质波)的波长公式是？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>\(\lambda = hE\)</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>\(\lambda = h/p\)</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>\(\lambda = hp\)</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>\(\lambda = p/h\)</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="德布罗意假设一切实物粒子都具有波粒二象性。联系粒子性和波动性的桥梁是德布罗意关系：\(E = h
+u\)，\(p = h/\lambda\)。粒子能量\(E\)对应波的频率\(
+u\)，粒子动量\(p\)对应波的波长\(\lambda\)。这是自然界对称性的体现——光和实物粒子都应具有二象性。">
+      <div class="qh"><div class="qn">4</div><span class="qk">KC3.2 [简答]</span></div>
+      <div class="qt">德布罗意假设的核心内容是什么？它如何统一了波和粒子的概念？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">5</div><span class="qk">KC3.3 [计算]</span></div>
+      <div class="qt">经过10000V电势差加速的电子束，其德布罗意波长约为多少？(已知电子波长近似公式 \(\lambda = 1.225/\sqrt{V}\ \text{nm}\))</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 0.1225 nm</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 0.01225 nm</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 1.225 nm</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 12.25 nm</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="动量\(p = h/\lambda = 6.63 \times 10^{-34} / 10^{-10} = 6.63 \times 10^{-24}\ \text{kg}\cdot\text{m/s}\)。能量\(E = hc/\lambda = 6.63 \times 10^{-34} \times 3 \times 10^8 / 10^{-10} = 1.986 \times 10^{-15}\ \text{J}\)。">
+      <div class="qh"><div class="qn">6</div><span class="qk">KC3.3 [计算]</span></div>
+      <div class="qt">波长为1埃的X光光子，其动量和能量各为多少？(\(h = 6.63 \times 10^{-34}\ \text{J}\cdot\text{s}\), \(c = 3 \times 10^8\ \text{m/s}\))</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">7</div><span class="qk">KC3.4 [选择]</span></div>
+      <div class="qt">根据海森堡测不准关系，位置不确定量\(\Delta x\)和动量不确定量\(\Delta p\)满足的关系是？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>\(\Delta x \cdot \Delta p \ge \hbar/2\)</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>\(\Delta x \cdot \Delta p \le \hbar/2\)</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>\(\Delta x + \Delta p \ge \hbar\)</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>\(\Delta x / \Delta p \ge \hbar\)</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="C">
+      <div class="qh"><div class="qn">8</div><span class="qk">KC3.4 [计算]</span></div>
+      <div class="qt">一个电子在云室中运动，径迹线度约为1微米。若电子能量为1000 eV，其动量相对偏差\(\Delta p/p\)至少约为多少？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>\(\approx 10^{-3}\)</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>\(\approx 10^{-4}\)</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>\(\approx 10^{-5}\)</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>\(\approx 10^{-6}\)</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="C">
+      <div class="qh"><div class="qn">9</div><span class="qk">KC3.5 [选择]</span></div>
+      <div class="qt">波函数的统计解释是由谁提出的？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. Schrodinger</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 海森堡</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 玻恩</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. Dirac</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="波函数\(\psi(r,t)\)本身没有直接的物理意义，但\(|\psi(r,t)|^2\)表示在时刻t、位置r处单位体积中发现粒子的概率(概率密度)。\(|\psi|^2 d\tau\)是在体积元\(d\tau\)中找到粒子的概率。全空间概率积分等于1(归一化条件)。">
+      <div class="qh"><div class="qn">10</div><span class="qk">KC3.5 [简答]</span></div>
+      <div class="qt">波函数\(\psi(r,t)\)的物理意义是什么？请简要说明。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="C">
+      <div class="qh"><div class="qn">11</div><span class="qk">KC3.6 [选择]</span></div>
+      <div class="qt">以下哪个不是波函数必须满足的标准条件？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 连续性</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 单值性</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 周期性</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 归一化</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="(1)连续性：粒子在空间出现的概率不能突变，因此波函数必须在全空间连续。(2)单值性：某时刻粒子在空间出现的概率必须是确定的，因此波函数必须是单值函数。(3)有限性：粒子在空间出现的概率必须是有限的有限值。(4)归一化：全空间发现粒子的概率为1，即积分\(|\psi|^2 d\tau = 1\)。">
+      <div class="qh"><div class="qn">12</div><span class="qk">KC3.6 [简答]</span></div>
+      <div class="qt">请列举波函数的四个标准条件，并简要说明每个条件的物理意义。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">13</div><span class="qk">KC3.7 [选择]</span></div>
+      <div class="qt">Schrodinger方程在量子力学中的地位相当于什么在经典力学中的地位？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 热力学定律</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 牛顿运动定律</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 万有引力定律</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 能量守恒定律</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="含时薛定谔方程为 \(i\hbar \partial \psi/\partial t = \hat{H}\psi\)。其中\(\hbar\)为约化普朗克常数，\(\psi\)为波函数，\(\hat{H}\)为哈密顿算符。\(\hat{H} = -(\hbar^2/2m) 
+abla^2 + V(r,t)\)，第一项为动能算符，第二项为势能。该方程描述微观粒子状态随时间的变化规律。">
+      <div class="qh"><div class="qn">14</div><span class="qk">KC3.7 [简答]</span></div>
+      <div class="qt">写出含时Schrodinger方程的完整形式，并说明其中各符号的物理意义。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">15</div><span class="qk">KC3.8 [选择]</span></div>
+      <div class="qt">动量算符p的数学形式是？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>\(p = i\hbar\nabla\)</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>\(p = -i\hbar\nabla\)</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>\(p = \hbar\nabla\)</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>\(p = -\hbar\nabla\)</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="哈密顿算符 \(\hat{H} = -(\hbar^2/2m) 
+abla^2 + V(r,t)\)。其中第一部分 \(-(\hbar^2/2m) 
+abla^2\) 对应于动能，\(
+abla^2\) 为拉普拉斯算符；第二部分 \(V(r,t)\) 为势能函数。哈密顿算符对应体系的总能量。">
+      <div class="qh"><div class="qn">16</div><span class="qk">KC3.8 [简答]</span></div>
+      <div class="qt">写出哈密顿算符H的表达式，并说明各部分的物理意义。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="当势能V只是坐标的函数(与时间无关)时，体系能量有确定值，称为定态。此时波函数可分离变量为 \(\psi(r,t) = \psi(r) e^{-iEt/\hbar}\)，其中\(\psi(r)\)满足定态薛定谔方程。">
+      <div class="qh"><div class="qn">17</div><span class="qk">KC3.9 [简答]</span></div>
+      <div class="qt">什么条件下可以使用定态Schrodinger方程？定态波函数的时间依赖形式是怎样的？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">18</div><span class="qk">KC3.9 [选择]</span></div>
+      <div class="qt">定态Schrodinger方程也称为？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 概率方程</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 能量本征方程</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 波函数方程</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 运动方程</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">19</div><span class="qk">KC3.10 [选择]</span></div>
+      <div class="qt">一维无限深势阱中粒子的能级与量子数n的关系为？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. Eₙ与n成正比</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. Eₙ与n^2成正比</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. Eₙ与n^{-1}成正比</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>\(E_n \propto \sqrt{n}\)</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="(1)分区写出定态薛定谔方程：阱内\(V=0\)，阱外\(V=\infty\)。(2)阱内求通解 \(\psi(x) = A\sin(kx) + B\cos(kx)\)，其中\(k = \sqrt{2mE}/\hbar\)。(3)由边界条件\(\psi(\pm a/2)=0\)得波矢量子化\(k = n\pi/a\)。(4)能量本征值 \(E_n = (\pi^2\hbar^2)/(2ma^2)n^2\)。(5)由归一化条件确定系数\(A\)、\(B\)。">
+      <div class="qh"><div class="qn">20</div><span class="qk">KC3.10 [简答]</span></div>
+      <div class="qt">求解一维无限深势阱(从-a/2到a/2)中粒子问题的基本步骤是什么？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="(1)能级等间距分布，间距为 \(\hbar\omega\)。(2)基态能量不为零，\(E_0 = rac{1}{2}\hbar\omega\)，称为零点能。(3)能级公式为 \(E_n = (n+rac{1}{2})\hbar\omega\)，\(n=0,1,2,\dots\)。">
+      <div class="qh"><div class="qn">21</div><span class="qk">KC3.11 [简答]</span></div>
+      <div class="qt">一维简谐振子的能级有哪些特点？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">22</div><span class="qk">KC3.12 [选择]</span></div>
+      <div class="qt">隧道效应是指？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 粒子从势垒上翻越过去</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 能量低于势垒的粒子有一定概率穿过势垒</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 粒子在势垒中无限反弹</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 势垒被粒子撞碎</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">23</div><span class="qk">KC3.13 [选择]</span></div>
+      <div class="qt">氢原子的Schrodinger方程求出的能量本征值Eₙ与玻尔理论结果是否一致？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 完全一致</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 部分一致</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 完全不同</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 只在n=1时一致</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="C">
+      <div class="qh"><div class="qn">24</div><span class="qk">KC3.13 [选择]</span></div>
+      <div class="qt">氢原子中电子能量E > 0的情况对应什么物理状态？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 基态</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 激发态</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 电离态(自由电子)</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 不存在</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="因为氢原子是最简单的原子，其薛定谔方程可以严格求解，得出的结果(能级、波函数等)与实验符合。氢原子理论是了解复杂原子及分子结构的基础，并对氢原子光谱和化学元素周期律给出了满意解释。">
+      <div class="qh"><div class="qn">25</div><span class="qk">KC3.13 [简答]</span></div>
+      <div class="qt">为什么说氢原子的量子力学处理是量子力学发展史上的重要成就？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">26</div><span class="qk">KC3.14 [选择]</span></div>
+      <div class="qt">主量子数n确定后，角量子数l可以取哪些值？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. l = 0, 1, 2, ..., n</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. l = 0, 1, 2, ..., n-1</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. l = 0, 1, 2, ..., n+1</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. l = 0, 1, 2, ..., 2n</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">27</div><span class="qk">KC3.14 [选择]</span></div>
+      <div class="qt">对于l = 2的电子，磁量子数m可以取几个值？分别是？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 3个: -1, 0, 1</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 5个: -2, -1, 0, 1, 2</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 2个: 1, 2</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 4个: -2, -1, 1, 2</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="四个量子数为：(1)主量子数n = 1, 2, 3, ...；(2)角量子数l = 0, 1, 2, ..., n-1；(3)磁量子数m = -l, -l+1, ..., 0, ..., l-1, l；(4)自旋量子数s = 1/2。其中n决定能量，l决定轨道角动量大小，m决定角动量的空间取向，s是电子的内禀属性。">
+      <div class="qh"><div class="qn">28</div><span class="qk">KC3.14 [简答]</span></div>
+      <div class="qt">描述氢原子中电子状态需要哪四个量子数？它们的取值范围分别是什么？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="玻尔理论认为电子只在确定的轨道上运动，其他位置不会出现。量子力学认为在相当于轨道的地方发现电子的概率最大，但其他位置也有发现电子的概率。电子云是概率密度分布的直观表示，它不是电子实际分布的轨迹，而是概率的统计描述。">
+      <div class="qh"><div class="qn">29</div><span class="qk">KC3.15 [简答]</span></div>
+      <div class="qt">量子力学中电子云的概念与玻尔轨道描述有何本质区别？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">30</div><span class="qk">KC3.15 [选择]</span></div>
+      <div class="qt">氢原子中，电子出现在核附近的概率密度由波函数的哪部分决定？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 角向部分</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 径向部分</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 相位部分</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 时间部分</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">31</div><span class="qk">KC3.16 [选择]</span></div>
+      <div class="qt">玻尔量子化条件在物质波图像下，可解释为轨道周长等于什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 波长的整数倍</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 波长的一半</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 波长的平方</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 与波长无关</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+</div>
+    </div>
+  </div>
+  <div class="ch-tp" id="ch-ch4" style="--ch-pd:#2d1b4e;--ch-pm:#6b3fa0">
+    <div class="ch-hd">
+      <h2>第四章 第四章 碱金属原子</h2>
+      <div class="ch-st"><span>14 个KCs</span><span>23 道自测题</span></div>
+    </div>
+
+    <div class="inner-tb">
+      <button class="inner-btn active" onclick="innerTab('ch4','kc')">📖 知识清单</button>
+      <button class="inner-btn" onclick="innerTab('ch4','quiz')">📝 章节测试</button>
+    </div>
+
+    <div class="inner-tp active" id="kc-ch4">
+      <div class="overview-container">
+    <div class="overview-title">📖 本章总览</div>
+    <div class="overview"><div class="ov-card"><div class="ov-head">§4.1 碱金属原子的光谱 <span class="ov-count">7个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 碱金属原子结构模型<br>&nbsp;&nbsp;&nbsp;· 碱金属原子光谱公式<br>&nbsp;&nbsp;&nbsp;· 有效量子数n*与量子亏损<br>&nbsp;&nbsp;&nbsp;· 四个线系(主线系、锐线系、漫线系、基线系)<br>&nbsp;&nbsp;&nbsp;· 原子实的极化<br>&nbsp;&nbsp;&nbsp;· 轨道贯穿<br>&nbsp;&nbsp;&nbsp;· 碱金属能级分裂的原因</div></div>
+<div class="ov-card"><div class="ov-head">§4.2 碱金属原子光谱的精细结构 <span class="ov-count">2个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 精细结构的实验特征<br>&nbsp;&nbsp;&nbsp;· 精细结构的双线/三线规律</div></div>
+<div class="ov-card"><div class="ov-head">§4.3 碱金属原子双层结构理论 <span class="ov-count">5个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 电子自旋假设<br>&nbsp;&nbsp;&nbsp;· 自旋-轨道耦合<br>&nbsp;&nbsp;&nbsp;· 碱金属能级双层结构<br>&nbsp;&nbsp;&nbsp;· 选择定则(Δl=±1, Δj=0,±1)<br>&nbsp;&nbsp;&nbsp;· 精细结构能级图</div></div>
+</div>
+  </div>
+
+  <div class="sec open">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §4.1 碱金属原子的光谱</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.1</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">碱金属原子结构模型</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>碱金属原子由两部分构成：一个完整的"原子实"（原子核 + 除价电子外的其余电子）和一个在原子实外运动的价电子。碱金属原子与氢原子的结构相似，因为两者核外都只有一个电子（价电子），因此氢原子理论可推广到碱金属原子。然而，碱金属的原子实是一个松散的体系，不像氢原子核那样是点电荷，会发生原子实极化以及价电子贯穿，使其光谱有别于氢原子。碱金属元素包括Li、Na、K、Rb、Cs等，它们的光谱具有相仿的结构。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.2</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">碱金属原子光谱公式</div>
+          <div class="kc-body"><span class="kc-type">方法</span><p>碱金属原子的光谱项一般表达式为 \(T = R / (n - Δ)^2 = R / n^{*2}\)，其中 \(R\) 为里德伯常数，\(Δ\) 为量子亏损，\(n^*\) 为有效量子数。这一公式与氢原子光谱项公式 \(T = R / n^2\) 形式相似，但用有效量子数 \(n^* = n - Δ\) 替代了主量子数 \(n\)。谱线的波数由两个光谱项之差给出：\(ν = T_1 - T_2\)。不同线系的谱线波数可通过系限波数和对应谱项值计算得出。Li原子各态的光谱项值和有效量子数可通过实验数据测定，例如3s态的 \(T = 16280.5\) m\(^{-1}\)，对应的 \(n^* = 2.589\)，\(Δ = 0.4\)。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.3</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">有效量子数n*与量子亏损</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>有效量子数 \(n^*\) 和主量子数 \(n\)、量子亏损 \(Δ\) 的关系为 \(n^* = n - Δ\)，或 \(Δ = n - n^*\)。有效量子数可由光谱项值反推：\(n^* = \sqrt{R/T}\)。量子亏损 \(Δ\) 的大小取决于角量子数 \(l\)：\(l\) 越小，轨道偏心率越大，价电子穿透原子实越深，能量降低越多，量子亏损越大。Li 原子各态的 \(Δ\) 约值：s 态约 0.40，p 态约 0.05，d 态约 0.001，f 态约 0（接近氢原子）。由 Li 光谱项数据可见，\(n^*\) 随 n 增大而逐渐接近整数，说明高激发态时碱金属原子行为趋近于氢原子。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.4</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">四个线系(主线系、锐线系、漫线系、基线系)</div>
+          <div class="kc-body"><span class="kc-type">事实</span><p>碱金属原子有四个谱线系：（1）主线系（Principal Series）：\(np \to 2s\) 跃迁，谱线最显著，双线结构，间隔随波数增大而减小；（2）第二辅线系/锐线系（Sharp Series）：\(ns \to 2p\) 跃迁，双线结构，间隔不变；（3）第一辅线系/漫线系（Diffuse Series）：\(nd \to 2p\) 跃迁，三线结构，第一三间隔不变，一二间隔随波数增大而减小；（4）基线系/Bergmann系（Fundamental Series）：\(nf \to 3d\) 跃迁，三线结构。不同线系对应不同的终态，每个线系的系限波数恰好是另一个线系的最大谱项。与氢光谱相比，对应 H 光谱的一个线系，碱金属有独立的几个线系。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.5</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">原子实的极化</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>原子实由原子核和除价电子外的其余电子组成，呈球对称结构。价电子在原子实外运动时，原子实中带正电的核和核外电子云的中心会发生微小移动，形成一个电偶极子，这一现象称为原子实的极化。极化后的原子实与价电子相互作用，引起能量的变化。对同一 \(n\) 值，\(l\) 值较大（近圆轨道）的轨道引起的能量变化小，\(l\) 值越小能量变化越大。原子实的极化是碱金属能级发生 \(l\) 分裂的原因之一。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.6</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">轨道贯穿</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>Li 原子的 s、p 能级比 H 原子相应能量低很多，说明除了原子实的极化外还存在其他原因。分析表明，s、p 轨道的偏心率很大，在接近原子实时可能会穿透（贯穿）原子实。当价电子处于原子实外运动时，有效电荷 \(Z^* \sim 1\)；当电子穿过原子实时，\(Z^* > 1\)，感受到更大的有效核电荷，从而引起更大的能量降低。轨道贯穿是 s 态能级显著低于氢原子对应能级的主要原因（对 Li 原子 s 态能级降低的贡献大于原子实极化），也是量子亏损随 \(l\) 减小而增大的重要物理机制。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.7</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">碱金属能级分裂的原因</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>碱金属原子能级发生 \(l\) 分裂（同一 \(n\) 值下不同 \(l\) 的能级不再简并）的原因主要有两个：（1）原子实的极化——价电子使原子实产生电偶极矩，极化后的原子实与价电子相互作用引起能量变化，\(l\) 越小效应越强；（2）轨道的贯穿——\(l\) 较小的轨道（s、p）偏心率大，电子可贯穿原子实，受到更大的有效核电荷作用，能量降低更显著。两者都使能级能量降低，\(l\) 越小降低越显著。因此同一 \(n\) 值下不同 \(l\) 的能级不再简并，表现为光谱项中量子亏损 \(Δ\) 随 \(l\) 增大而迅速减小。在考虑自旋-轨道耦合后，能级还会进一步发生 \(j\) 分裂（精细结构分裂）。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      <div class="kc-area">
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §4.2 碱金属原子光谱的精细结构</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.8</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">精细结构的实验特征</div>
+          <div class="kc-body"><span class="kc-type">事实</span><p>用高分辨率仪器观察碱金属光谱时，每条谱线一般会分裂为两条或三条，而非单一的谱线，这称为光谱线的精细结构。所有的碱金属原子光谱有相仿的精细结构，一般主要可观察到四个线系。主线系和第二辅线系（锐线系）为双线结构，第一辅线系（漫线系）和基线系为三线结构。精细结构的根源在于原子的 p、d 等能层为双层结构。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.9</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">精细结构的双线/三线规律</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>精细结构的基本规律：（1）主线系（\(np \to 2s\)）为双线结构，间隔随波数增大而减小——当 \(n\) 增大时，p 的两层能级间隔逐渐减小；（2）第二辅线系/锐线系（\(ns \to 2p\)）为双线结构，两间隔相等且保持不变——s 为单层、p 为双层能级可解释此结构；（3）第一辅线系/漫线系（\(nd \to 2p\)）为三线结构，第一三间隔（由 2p 双层间隔决定）不变，一二间隔（由 d 双层间隔决定）随波数增大而减小；（4）基线系（\(nf \to 3d\)）为三线结构，规律与漫线系相似。s 为单层结构，p、d、f 为双层结构；对同一 \(l\)，随 \(n\) 增大双层能级间隔减小；对同一 \(n\)，随 \(l\) 增大双层能级间隔减小。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §4.3 碱金属原子双层结构理论</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.10</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">电子自旋假设</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>1925 年 G. 乌伦贝克 和 S.A. 古德斯密特 提出电子不是点电荷，除了轨道角动量外还有自旋运动，具有固定的自旋角动量 \(P_s = \sqrt{s(s+1)}ħ\)，其中自旋量子数 \(s = 1/2\)。自旋角动量在 \(z\) 方向的分量为 \(P_{sz} = m_s ħ\)，\(m_s = \pm 1/2\)。电子的自旋磁矩为 \(\boldsymbol{μ}_s = -g_s \frac{e}{2m} \boldsymbol{P}_s\)，其中 \(g_s = 2\) 为电子自旋的 Land\'e 因子（电子轨道 Land\'e 因子 \(g_l = 1\)）。自旋假设成功解释了碱金属光谱的精细结构、斯特恩-盖拉赫实验等关键实验现象。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.11</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">自旋-轨道耦合</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>价电子绕原子实运动相当于原子实绕价电子运动，原子实的运动使价电子感受到一个磁场的存在。电子自旋磁矩在此磁场中受到力矩作用，产生自旋-轨道耦合，使原子能量发生变化。总角动量 \(\boldsymbol{P}_j = \boldsymbol{P}_l + \boldsymbol{P}_s\)，总角量子数 \(j = l \pm 1/2\)（对 \(l > 0\)）。自旋-轨道耦合能量 \(Δ E_{ls} ∝ \frac{Z^{*4}}{n^3 l(l+1/2)(l+1)}\)。由此可知：（1）对同一 \(l\)，\(n\) 越大间隔越小（\(∝ 1/n^3\)）；（2）对同一 \(n\)，\(l\) 越大间隔越小；（3）\(Z\)（原子序数）越大间隔越大（\(∝ Z^4\)），这解释了 Na 的精细结构分裂比 Li 更大的原因。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.12</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">碱金属能级双层结构</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>自旋-轨道耦合能取决于总角量子数 \(j\)。\(l = 0\)（s 态）时，\(j\) 只能取 \(1/2\)，只有一个可能值，不发生能级分裂，因此 s 能级为单层。\(l > 0\)（p、d、f 等）时，\(j\) 可取 \(l + 1/2\) 和 \(l - 1/2\) 两个值，对应不同能量，能级分裂为双层。双层能级差为 \(Δ E = \frac{1}{2} \zeta (2l+1)\)，其中 \(\zeta\) 为自旋-轨道耦合常数。这就是碱金属原子能级双层结构的由来：p 能级分裂为 \(n^2P_{1/2}\) 和 \(n^2P_{3/2}\)，d 能级分裂为 \(n^2D_{3/2}\) 和 \(n^2D_{5/2}\)，等等。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.13</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">选择定则(Δl=±1, Δj=0,±1)</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>单电子辐射跃迁的选择定则：（1）轨道角量子数选择定则 \(Δ l = \pm 1\)——跃迁必须改变轨道角动量量子数 1，宇称发生改变；（2）总角量子数选择定则 \(Δ j = 0, \pm 1\)——但 \(j = 0 \to j = 0\) 的跃迁禁戒。这些定则决定了谱线精细结构的数量和特征。例如 3D 到 3P 的跃迁：3D 分裂为 \(3^2D_{3/2}\) 和 \(3^2D_{5/2}\)，3P 分裂为 \(3^2P_{1/2}\) 和 \(3^2P_{3/2}\)，根据选择定则共有 3 条允许跃迁（\(3^2D_{5/2} \to 3^2P_{3/2}\)、\(3^2D_{3/2} \to 3^2P_{3/2}\)、\(3^2D_{3/2} \to 3^2P_{1/2}\)），而 \(3^2D_{5/2} \to 3^2P_{1/2}\)（\(Δ j = -2\)）禁戒。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC4.14</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">精细结构能级图</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>碱金属原子的精细结构能级图展示了考虑自旋-轨道耦合后各能级的分裂情况。原子态符号为 \(n^{2S+1}L_J\)，其中 \(n\) 为主量子数，\(2S+1 = 2\) 为自旋多重度（单电子体系），\(L\) 为轨道角动量字母（S、P、D、F 对应 \(l = 0,1,2,3\)），\(J\) 为总角量子数。具体符号：S 能级（\(l = 0\)）为 \(n^2S_{1/2}\)（单层）；P 能级（\(l = 1\)）为 \(n^2P_{1/2}\) 和 \(n^2P_{3/2}\)（双层）；D 能级（\(l = 2\)）为 \(n^2D_{3/2}\) 和 \(n^2D_{5/2}\)（双层）。能级图中 \(j\) 越大能量越高（\(n^2P_{3/2}\) 高于 \(n^2P_{1/2}\)），且精细结构分裂随 \(n\) 增大而减小。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
+
+    <div class="inner-tp" id="quiz-ch4">
+      <div class="tp" id="quiz">
+  <div class="section-title">章节测试（23题）</div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">1</div><span class="qk">KC4.1 [选择]</span></div>
+      <div class="qt">碱金属原子由哪两部分组成？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 原子核和价电子</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 原子实和价电子</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 原子核和内层电子</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 质子和中子</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="相同点：碱金属原子在完整原子实外也只有一个价电子，与氢原子核外只有一个电子的结构类似。不同点：氢原子的原子核是点电荷，而碱金属的原子实是一个松散的体系，会发生极化以及价电子贯穿，因此其光谱有别于氢原子。">
+      <div class="qh"><div class="qn">2</div><span class="qk">KC4.1 [简答]</span></div>
+      <div class="qt">为什么可以将氢原子理论推广到碱金属原子？碱金属与氢原子有何异同？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">3</div><span class="qk">KC4.2 [选择]</span></div>
+      <div class="qt">碱金属原光谱项的一般表达式是？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. T = R/n^2</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>\(T = R/(n-\Delta)^2\)</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. T = R^2/n^2</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>\(T = (n-\Delta)/R\)</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="由\(T = R/n^{*2}\)得\(n^* = \sqrt{R/T} = \sqrt{109737/16280.5} = \sqrt{6.74} \approx 2.596\)，\(n=3\)，所以\(\Delta = 3 - 2.596 = 0.404\)。">
+      <div class="qh"><div class="qn">4</div><span class="qk">KC4.2 [计算]</span></div>
+      <div class="qt">已知Li原子3s态的谱项值\(T = 16280.5 \text{m}^{-1}\)，里德伯常数\(R = 109737 \text{m}^{-1}\)，求有效量子数\(n^*\)和量子亏损\(\Delta\)。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">5</div><span class="qk">KC4.3 [选择]</span></div>
+      <div class="qt">有效量子数\(n^*\)与主量子数\(n\)和量子亏损\(\Delta\)的关系是？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>\(n^* = n + \Delta\)</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>\(n^* = n - \Delta\)</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>\(n^* = n \times \Delta\)</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>\(n^* = \Delta / n\)</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="Li原子各态\(\Delta\)约值：s态约0.40，p态约0.05，d态约0.001，f态约0。规律：\(l\)越小，量子亏损越大。这是因为\(l\)越小，轨道偏心率越大，价电子穿透原子实越深，能量降低越多。">
+      <div class="qh"><div class="qn">6</div><span class="qk">KC4.3 [简答]</span></div>
+      <div class="qt">Li原子s、p、d、f态的量子亏损\(\Delta\)分别约是多少？呈现什么规律？原因是什么？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">7</div><span class="qk">KC4.4 [选择]</span></div>
+      <div class="qt">碱金属原子的主线系是由什么跃迁形成的？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. ns -> 2p</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. np -> 2s</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. nd -> 2p</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. nf -> 3d</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="(1)主线系：np -> 2s；(2)第二辅线系(锐线系)：ns -> 2p；(3)第一辅线系(漫线系)：nd -> 2p；(4)基线系(Bergmann系)：nf -> 3d。不同线系对应不同的终态。">
+      <div class="qh"><div class="qn">8</div><span class="qk">KC4.4 [简答]</span></div>
+      <div class="qt">碱金属原子有哪四个线系？分别对应什么跃迁？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="原子实的极化：价电子在原子实外运动时，原子实中带正电的核和核外电子云中心发生微小移动，形成一个电偶极子。极化原子实与价电子相互作用引起能量变化。对同一n值，l较大(近圆轨道)的轨道能量变化小，l越小能量变化越大。这是碱金属能级发生l分裂的原因之一。">
+      <div class="qh"><div class="qn">9</div><span class="qk">KC4.5 [简答]</span></div>
+      <div class="qt">什么是原子实的极化？它如何影响碱金属原子的能级？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">10</div><span class="qk">KC4.6 [选择]</span></div>
+      <div class="qt">Li原子s态能级比H原子s态能级低很多，最主要的原因是？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 原子实极化</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 轨道贯穿</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 相对论效应</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 电子自旋</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">11</div><span class="qk">KC4.7 [选择]</span></div>
+      <div class="qt">对同一主量子数n，碱金属原子中哪个l的态能量最低？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. s态(l=0)</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. p态(l=1)</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. d态(l=2)</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. f态(l=3)</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="两大原因：(1)原子实的极化——价电子使原子实产生电偶极矩，极化后的原子实与价电子相互作用引起能量变化，\(l\)越小效应越强；(2)轨道的贯穿——\(l\)较小的轨道(s、p)偏心率大，电子可贯穿原子实，受到更大的有效核电荷作用。两者都使能级能量降低，\(l\)越小降低越显著。因此同一\(n\)值下不同\(l\)的能级不再简并，表现为光谱项中量子亏损\(\Delta\)随\(l\)增大而迅速减小。">
+      <div class="qh"><div class="qn">12</div><span class="qk">KC4.7 [简答]</span></div>
+      <div class="qt">碱金属原子能级为什么会发生l分裂？请从物理机制角度综合分析。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">13</div><span class="qk">KC4.8 [选择]</span></div>
+      <div class="qt">用高分辨率仪器观察碱金属光谱时，每条谱线一般会分裂为？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 一条(无分裂)</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 两条或三条</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 四条以上</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 不确定</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">14</div><span class="qk">KC4.9 [选择]</span></div>
+      <div class="qt">精细结构中，主线系双线间隔随波数增大如何变化？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 增大</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 减小</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 不变</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 无规律</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="漫线系为\(nd \to 2p\)跃迁。d能级为双层(\(j=3/2\)和\(5/2\))，2p也为双层(\(j=1/2\)和\(3/2\))。根据选择定则\(\Delta j = 0, \pm 1\)，共有3条允许跃迁：(1)\(d_{3/2} \to p_{1/2}\)，(2)\(d_{5/2} \to p_{3/2}\)，(3)\(d_{3/2} \to p_{3/2}\)。其中(1)和(3)间隔由2p双层间隔决定(固定)，(1)和(2)间隔由d双层间隔决定(随n增大而减小)。">
+      <div class="qh"><div class="qn">15</div><span class="qk">KC4.9 [简答]</span></div>
+      <div class="qt">漫线系(一辅系)表现为三谱线结构，请结合选择定则分析其成因。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">16</div><span class="qk">KC4.10 [选择]</span></div>
+      <div class="qt">电子自旋量子数s等于多少？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 0</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 1/2</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 1</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 3/2</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">17</div><span class="qk">KC4.10 [选择]</span></div>
+      <div class="qt">谁提出了电子自旋假设？自旋磁矩的朗德因子g_s是多少？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 泡利, g_s=1</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 乌伦贝克和古德斯密特, g_s=2</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. Dirac, g_s=3</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 玻尔, g_s=1/2</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">18</div><span class="qk">KC4.11 [选择]</span></div>
+      <div class="qt">自旋-轨道耦合中，总角量子数j的取值规则是？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. j = l +/- 1 (对l>0)</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. j = l +/- 1/2 (对l>0)</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. j = l +/- 2</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. j = l (固定)</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="双层能级间隔正比于Z^4/[n^3 l(l+1/2)(l+1)]。因此：(1)对同一l，n越大间隔越小(1/n^3)；(2)对同一n，l越大间隔越小；(3)Z(原子序数)越大间隔越大(Z^4)。这解释了为什么Na的精细结构分裂比Li更大。">
+      <div class="qh"><div class="qn">19</div><span class="qk">KC4.11 [简答]</span></div>
+      <div class="qt">自旋-轨道耦合产生的双层能级间隔随哪些因素变化？请写出定性依赖关系。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="自旋-轨道耦合能取决于总角量子数j。l=0(s态)时j只能取1/2，只有一个可能值，不发生能级分裂。l>0(p、d、f等)时j可取l+1/2和l-1/2两个值，对应不同能量，能级分裂为双层。">
+      <div class="qh"><div class="qn">20</div><span class="qk">KC4.12 [简答]</span></div>
+      <div class="qt">为什么s能级不分层(单层)，而p、d能级分裂为双层？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">21</div><span class="qk">KC4.13 [选择]</span></div>
+      <div class="qt">单电子辐射跃迁的选择定则\(\Delta l\)的取值是？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>\(\Delta l = 0\)</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>\(\Delta l = \pm 1\)</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>\(\Delta l = \pm 2\)</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>\(\Delta l = \text{任意值}\)</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="共有3条谱线。允许跃迁为：(1) \(3^2D_{3/2} \to 3^2P_{1/2} (\Delta j = -1)\)；(2) \(3^2D_{3/2} \to 3^2P_{3/2} (\Delta j = 0)\)；(3) \(3^2D_{5/2} \to 3^2P_{3/2} (\Delta j = -1)\)。\(3^2D_{5/2} \to 3^2P_{1/2} (\Delta j = -2)\)禁戒。">
+      <div class="qh"><div class="qn">22</div><span class="qk">KC4.13 [计算]</span></div>
+      <div class="qt">已知钠原子\(3P\)能级分裂为\(3^2P_{1/2}\)和\(3^2P_{3/2}\)，\(3D\)能级分裂为\(3^2D_{3/2}\)和\(3^2D_{5/2}\)。请问从\(3D\)到\(3P\)的跃迁共有几条谱线？请写出每条跃迁。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="S能级(\(l=0\))：\(n^2S_{1/2}\)；P能级(\(l=1\))：\(n^2P_{1/2}\)和\(n^2P_{3/2}\)(双层)；D能级(\(l=2\))：\(n^2D_{3/2}\)和\(n^2D_{5/2}\)(双层)。符号\(n^{2S+1}L_J\)中，\(n\)为主量子数，\(2S+1=2\)为自旋多重度(单电子体系)，\(L\)为轨道角动量字母(\(S=0,P=1,D=2,F=3,\dots\))，\(J\)为总角量子数。">
+      <div class="qh"><div class="qn">23</div><span class="qk">KC4.14 [简答]</span></div>
+      <div class="qt">请写出碱金属原子S、P、D能级的原子态符号，并说明各符号的含义。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+</div>
+    </div>
+  </div>
+  <div class="ch-tp" id="ch-ch5" style="--ch-pd:#1a3a2a;--ch-pm:#2d8a4e">
+    <div class="ch-hd">
+      <h2>第五章 第五章 多电子原子</h2>
+      <div class="ch-st"><span>18 个KCs</span><span>24 道自测题</span></div>
+    </div>
+
+    <div class="inner-tb">
+      <button class="inner-btn active" onclick="innerTab('ch5','kc')">📖 知识清单</button>
+      <button class="inner-btn" onclick="innerTab('ch5','quiz')">📝 章节测试</button>
+    </div>
+
+    <div class="inner-tp active" id="kc-ch5">
+      <div class="overview-container">
+    <div class="overview-title">📖 本章总览</div>
+    <div class="overview"><div class="ov-card"><div class="ov-head">§5.1 氦原子光谱与能级 <span class="ov-count">3个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 氦原子光谱特征(两套谱系)<br>&nbsp;&nbsp;&nbsp;· 正氦与仲氦<br>&nbsp;&nbsp;&nbsp;· 氦原子能级结构</div></div>
+<div class="ov-card"><div class="ov-head">§5.2 电子耦合与原子态 <span class="ov-count">10个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 电子组态<br>&nbsp;&nbsp;&nbsp;· 电子间六种相互作用<br>&nbsp;&nbsp;&nbsp;· L-S耦合(罗素-桑德斯耦合)<br>&nbsp;&nbsp;&nbsp;· 原子态表示法<br>&nbsp;&nbsp;&nbsp;· 洪特定则(洪特定则)<br>&nbsp;&nbsp;&nbsp;· 朗德间隔定则<br>&nbsp;&nbsp;&nbsp;· j-j耦合<br>&nbsp;&nbsp;&nbsp;· 辐射跃迁选择定则<br>&nbsp;&nbsp;&nbsp;· 原子基态的确定<br>&nbsp;&nbsp;&nbsp;· 多种耦合方式的比较</div></div>
+<div class="ov-card"><div class="ov-head">§5.3 泡利不相容原理 <span class="ov-count">3个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 泡利不相容原理<br>&nbsp;&nbsp;&nbsp;· 同科电子<br>&nbsp;&nbsp;&nbsp;· 简并度与状态数</div></div>
+<div class="ov-card"><div class="ov-head">§5.4 元素周期表 <span class="ov-count">2个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 元素周期律的物理本质<br>&nbsp;&nbsp;&nbsp;· 壳层结构与电子排布</div></div>
+</div>
+  </div>
+
+  <div class="sec open">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §5.1 氦原子光谱与能级</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.1</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">氦原子光谱特征(两套谱系)</div>
+          <div class="kc-body"><span class="kc-type">事实</span><p>氦原子光谱具有两套独立的谱线系：单线结构（仲氦）和多线结构（正氦）。每套谱线系又可分为主线系、第一辅线系、第二辅线系和基线系等。单线结构为单层结构，多线结构为三层结构。这是氦原子区别于氢原子的最显著特征，源于两个价电子自旋态的不同组合。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.2</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">正氦与仲氦</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>氦原子因两电子自旋取向不同而分为两种：正氦（自旋平行，三重态）和仲氦（自旋反平行，单态）。正氦具有三层结构（多线结构），仲氦为单层结构（单线结构）。两种氦在光谱上表现出完全不同的特征，但它们是同一元素的不同自旋态。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.3</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">氦原子能级结构</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>氦原子能级分为两套：单态（仲氦）和三重态（正氦）。同一主量子数 \(n\) 下，三重态能级低于单态能级。氦能级结构比氢复杂得多，与电子自旋状态密切相关。氦的基态为 \(1s^2\) 构成的 \(^1S_0\)，是第一激发能最大的元素之一。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      <div class="kc-area">
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §5.2 电子耦合与原子态</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.4</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">电子组态</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>由两个或多个价电子所处状态的组合称为电子组态。对于双价电子原子，一般一个电子处于基态，另一个处于基态或激发态，记为 \(nln'l'\)。与基态最靠近的态称为第一激发态。若两个电子的主量子数 \(n\) 不同，能级间隔大；若角量子数 \(l\) 不同，能级间隔则较小。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.5</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">电子间六种相互作用</div>
+          <div class="kc-body"><span class="kc-type">事实</span><p>两电子之间存在六种电磁相互作用：两电子轨道间的相互作用（\(l_1\)–\(l_2\)耦合）、两电子自旋间的相互作用（\(s_1\)–\(s_2\)耦合）、每个电子自身的自旋-轨道耦合（\(l_1\)–\(s_1\)和\(l_2\)–\(s_2\)）、以及一个电子的轨道与另一个电子自旋间的交叉相互作用（\(l_1\)–\(s_2\)和\(l_2\)–\(s_1\)，作用较弱）。不同相互作用强弱对比决定了耦合类型。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.6</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">L-S耦合(罗素-桑德斯耦合)</div>
+          <div class="kc-body"><span class="kc-type">方法</span><p>适用于轻元素。在电子间的静电相互作用（\(l_1\)–\(l_2\)和\(s_1\)–\(s_2\)）强于自旋-轨道耦合时采用。先将各电子的轨道角动量耦合成总轨道角动量 \(L = \sum l_i\)，自旋角动量耦合成总自旋 \(S = \sum s_i\)，再通过自旋-轨道相互作用将 \(L\) 和 \(S\) 耦合成总角动量 \(J = L+S, L+S-1, \dots, |L-S|\)。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.7</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">原子态表示法</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>原子态用光谱项符号表示为 \(^{2S+1}L_J\)。其中左上角 \(2S+1\) 为自旋多重度，\(L\) 为总轨道角动量（\(L=0,1,2,3,\dots\) 分别对应 \(S,P,D,F,\dots\)），右下角 \(J\) 为总角动量。例如 \(^3P_2\) 表示 \(S=1\)（三重态）、\(L=1\)、\(J=2\) 的原子态。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.8</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">洪特定则(洪特定则)</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>用于判断同一电子组态各原子态能级高低：①自旋多重度 \(2S+1\) 最大的能级最低；②多重度相同时，总轨道角动量 \(L\) 最大的能级最低；③\(S\) 和 \(L\) 均相同时，\(J\) 最小的能级最低（正常次序，适用于同科电子数 \(\le\) 闭壳层一半）或 \(J\) 最大的能级最低（反常次序）。仅适用于 \(L\)-\(S\) 耦合类型。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.9</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">朗德间隔定则</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>在一个多重能级（\(S>0\)）结构中，相邻两个能级之间的间隔与相关的两个 \(J\) 值中较大的那个成正比：\(Δ E(J, J-1) ∝ J\)。该定则为判断能级结构是否符合 \(L\)-\(S\) 耦合提供了定量依据。\(j\)-\(j\) 耦合的能级间隔不满足此定则。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.10</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">j-j耦合</div>
+          <div class="kc-body"><span class="kc-type">方法</span><p>适用于重元素（高 \(Z\)），自旋-轨道相互作用（\(l_i\)–\(s_i\)）强于电子间相互作用。先对每个电子分别合成其总角动量 \(j_i = l_i + s_i\)（取 \(j_i = |l_i \pm s_i|\)），再将各电子的 \(j_i\) 耦合成原子的总角动量 \(J = \sum j_i\)。\(j\)-\(j\) 耦合与 \(L\)-\(S\) 耦合形成的原子态数目相同，但能级结构和选择定则不同。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.11</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">辐射跃迁选择定则</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>偶极辐射跃迁必须满足宇称改变规则：跃迁只能发生在不同宇称的状态之间。\(L\)-\(S\) 耦合下：\(Δ l = \pm 1\)（单电子），\(Δ L = 0, \pm 1\)，\(Δ S = 0\)，\(Δ J = 0, \pm 1\)（但 \(J=0 \to 0\) 禁戒）。\(j\)-\(j\) 耦合下：\(Δ j = 0, \pm 1\)。宇称由各电子 \(l\) 值之和的奇偶性判断。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.17</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">原子基态的确定</div>
+          <div class="kc-body"><span class="kc-type">方法</span><p>确定原子基态三步法：①由原子序数 \(Z\) 确定基态电子组态（按 \(1s \to 2s \to 2p \to 3s \to 3p \to 4s \to 3d \to \dots\) 填充）；②写出电子组态形成的所有原子态（满壳层贡献 \(^1S_0\)）；③用洪特定则和朗德间隔定则找出能量最低的原子态。满壳层和满次壳层的轨道、自旋及总角动量均为零。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.18</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">多种耦合方式的比较</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>\(L\)-\(S\) 耦合和 \(j\)-\(j\) 耦合是两种极端情形：①\(L\)-\(S\) 耦合适用于轻元素（电子间库仑作用为主），能级间隔符合朗德定则；②\(j\)-\(j\) 耦合适用于重元素（自旋-轨道作用为主），不符合朗德定则；③两者形成的原子态数目相同；④中间区域（中重元素）实际耦合介于二者之间，非典型类型。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §5.3 泡利不相容原理</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.12</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">泡利不相容原理</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>1925年由泡利提出：在费米子组成的系统中，不能有两个或两个以上的粒子处于完全相同的状态。描述电子态需四个量子数 \((n, l, m_l, m_s)\)，即不能有两个电子的这四个量子数全部相同。该原理解释了 \(1s1s\) 组态只能形成 \(^1S_0\) 而不能形成 \(^3S_1\)，也是元素周期律的物理基础。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.13</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">同科电子</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>具有相同主量子数 \(n\) 和角量子数 \(l\) 的电子称为同科电子。受泡利原理限制，同科电子的 \(m_l\) 或 \(m_s\) 不能全同，因此同科电子形成的原子态比非同科电子少。确定同科电子原子态的方法有Slater表格法和Slater图解法。例如 \(np^2\) 组态只能形成 \(^1S\)、\(^1D\)、\(^3P\) 三个态。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.16</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">简并度与状态数</div>
+          <div class="kc-body"><span class="kc-type">事实</span><p>第 \(n\) 主壳层可容纳的最多电子数为 \(\sum_{l=0}^{n-1} 2(2l+1) = 2n^2\)。每个次壳层 \(l\) 有 \(2l+1\) 个轨道磁量子数 \(m_l\) 取值，每个 \(m_l\) 又有自旋向上和向下两个态（\(m_s = \pm 1/2\)），故每个次壳层可容纳 \(2(2l+1)\) 个电子。例如 \(n=3\) 壳层最多容纳 \(2 × 3^2 = 18\) 个电子。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §5.4 元素周期表</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.14</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">元素周期律的物理本质</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>元素性质的周期性源于核外电子组态的周期性排列。泡利原理限制了每个壳层可容纳的电子数（第 \(n\) 主壳层最多 \(2n^2\) 个），电子按能量最小原理依次填充各壳层。每完成一个主壳层的填充即完成一个周期，满壳层对应惰性气体元素，不满壳层决定元素的化学性质。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC5.15</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">壳层结构与电子排布</div>
+          <div class="kc-body"><span class="kc-type">方法</span><p>壳层分为主壳层（\(n=1,2,3,\dots\) 对应 \(K,L,M,\dots\)）和次壳层（\(l=0,1,2,3,\dots\) 对应 \(s,p,d,f,\dots\)）。每个次壳层可容纳 \(2(2l+1)\) 个电子。电子填充次序为 \(1s \to 2s \to 2p \to 3s \to 3p \to 4s \to 3d \to 4p \to 5s \to 4d \to 5p \to 6s \to 4f \to 5d \to 6p \to 7s \to 5f \to \dots\)，其中存在能级交错现象。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
+
+    <div class="inner-tp" id="quiz-ch5">
+      <div class="tp" id="quiz">
+  <div class="section-title">章节测试（24题）</div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">1</div><span class="qk">KC5.1 [选择]</span></div>
+      <div class="qt">氦原子光谱具有几套独立的谱线系？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 一套</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 两套</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 三套</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 四套</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="本质区别在于两个电子的自旋相对取向不同。自旋平行形成正氦的三重态结构，自旋反平行形成仲氦的单态结构。">
+      <div class="qh"><div class="qn">2</div><span class="qk">KC5.1 [简答]</span></div>
+      <div class="qt">氦原子光谱为什么有两套独立的谱线系？其本质区别是什么？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">3</div><span class="qk">KC5.2 [选择]</span></div>
+      <div class="qt">具有单线结构的氦称为仲氦，其对应的是哪种自旋状态？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 自旋三重态</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 自旋单态</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 自旋四重态</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 自旋二重态</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="C">
+      <div class="qh"><div class="qn">4</div><span class="qk">KC5.2 [选择]</span></div>
+      <div class="qt">正氦的光谱结构特征是什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 只有一条谱线</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 具有单线结构</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 具有多线结构</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 没有谱线</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="（1）氦有两套能级而氢只有一套；（2）同一主量子数下，三重态能级低于单态能级；（3）氦的能级与自旋状态密切相关。">
+      <div class="qh"><div class="qn">5</div><span class="qk">KC5.3 [简答]</span></div>
+      <div class="qt">氦原子的能级结构与氢原子相比有哪些主要不同？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">6</div><span class="qk">KC5.4 [选择]</span></div>
+      <div class="qt">电子组态是指什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 原子中所有电子的总能量</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 原子中各电子所处量子态的组合</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 电子的自旋状态组合</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 原子核的组态</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="1s22s22p2">
+      <div class="qh"><div class="qn">7</div><span class="qk">KC5.4 [填空]</span></div>
+      <div class="qt">碳原子（Z=6）基态的电子组态是____。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="C">
+      <div class="qh"><div class="qn">8</div><span class="qk">KC5.5 [选择]</span></div>
+      <div class="qt">两个电子之间共有多少种电磁相互作用？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 3种</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 4种</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 6种</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 8种</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="在较轻原子中，电子间库仑作用强于自旋-轨道耦合。先将各电子的轨道角动量耦合成总L，自旋耦合成总S，再将L和S耦合成总J。适用于轻元素。">
+      <div class="qh"><div class="qn">9</div><span class="qk">KC5.6 [简答]</span></div>
+      <div class="qt">简述L-S耦合的基本思想及其适用条件。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="L=3,2,1；S=1,0。可组合出3F、1F、3D、1D、3P、1P共六个原子态。">
+      <div class="qh"><div class="qn">10</div><span class="qk">KC5.6 [计算]</span></div>
+      <div class="qt">电子组态2p3d在L-S耦合下可形成哪些原子态？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">11</div><span class="qk">KC5.7 [选择]</span></div>
+      <div class="qt">原子态3P2中，3、P和2分别代表什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 主量子数、轨道角动量、轨道数</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 自旋多重度、总轨道角动量、总角动量</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 电子数、能级符号、角量子数</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 简并度、宇称、磁量子数</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">12</div><span class="qk">KC5.8 [选择]</span></div>
+      <div class="qt">洪特定则的核心内容是什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 能量越高的原子态越稳定</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 同一组态中自旋多重度最高的能级最低</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. L值最小的能级最低</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 所有原子都严格遵循洪特定则</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="在一个多重能级结构中，相邻能级之间的间隔与较大的J值成正比。这为判断能级结构提供了定量依据。">
+      <div class="qh"><div class="qn">13</div><span class="qk">KC5.9 [简答]</span></div>
+      <div class="qt">朗德间隔定则的内容是什么？有何意义？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="适用于重元素。先合成每个电子的j，再将各j耦合为总J。轻元素用L-S耦合，重元素用j-j耦合。">
+      <div class="qh"><div class="qn">14</div><span class="qk">KC5.10 [简答]</span></div>
+      <div class="qt">j-j耦合适用于哪类原子？与L-S耦合有何不同？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">15</div><span class="qk">KC5.11 [选择]</span></div>
+      <div class="qt">L-S耦合下辐射跃迁的选择定则包括哪些？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. Dl=1, DL=0,1, DS=0, DJ=0,1</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. Dl=0, DL=1, DS=1, DJ=0</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. Dl任意, DL=0, DS=0, DJ=1</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. Dl=1, DL任意, DS=0, DJ=1</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">16</div><span class="qk">KC5.12 [选择]</span></div>
+      <div class="qt">泡利不相容原理的内容是什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 原子中所有电子必须处于不同能级</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 原子中不能有两个电子有完全相同的一组量子数</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 电子总处于最低能级</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 电子的自旋必须平行</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="泡利原理限制了每个壳层可容纳的电子数，电子按能量顺序填充各壳层，满壳层对应惰性气体元素，不满的壳层决定化学性质。">
+      <div class="qh"><div class="qn">17</div><span class="qk">KC5.12 [简答]</span></div>
+      <div class="qt">泡利不相容原理如何解释元素周期律？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="同科电子是具有相同n和l的电子。受泡利原理限制，同科电子只能形成特定的原子态，比不同科电子可形成的态少。例如2p2只能形成三个原子态。">
+      <div class="qh"><div class="qn">18</div><span class="qk">KC5.13 [简答]</span></div>
+      <div class="qt">什么是同科电子？其原子态确定有何特点？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="核外电子按壳层结构周期性填充的结果。电子按能量依次填充各壳层，每完成一个壳层就是一个周期。">
+      <div class="qh"><div class="qn">19</div><span class="qk">KC5.14 [简答]</span></div>
+      <div class="qt">元素周期律的物理本质是什么？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">20</div><span class="qk">KC5.15 [选择]</span></div>
+      <div class="qt">第四周期从哪个元素到哪个元素？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 钾(K)到氪(Kr)</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 钠(Na)到氩(Ar)</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 铷(Rb)到氙(Xe)</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 钙(Ca)到氪(Kr)</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="1s22s22p63s23p63d64s2">
+      <div class="qh"><div class="qn">21</div><span class="qk">KC5.15 [填空]</span></div>
+      <div class="qt">铁（Fe, Z=26）的基态电子排布为____。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="18个">
+      <div class="qh"><div class="qn">22</div><span class="qk">KC5.16 [计算]</span></div>
+      <div class="qt">n=3的壳层最多能容纳几个电子？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="6S5/2">
+      <div class="qh"><div class="qn">23</div><span class="qk">KC5.17 [计算]</span></div>
+      <div class="qt">某元素基态电子组态为3d54s1，用洪特定则确定其基态原子态。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="L-S耦合：轻元素，电子间库仑作用占主导。j-j耦合：重元素，自旋-轨道作用占主导。中间区域两种都不完全适用。">
+      <div class="qh"><div class="qn">24</div><span class="qk">KC5.18 [简答]</span></div>
+      <div class="qt">比较L-S耦合和j-j耦合的适用条件。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+</div>
+    </div>
+  </div>
+  <div class="ch-tp" id="ch-ch6" style="--ch-pd:#3a2a1a;--ch-pm:#c07020">
+    <div class="ch-hd">
+      <h2>第六章 第六章 磁场中的原子</h2>
+      <div class="ch-st"><span>16 个KCs</span><span>18 道自测题</span></div>
+    </div>
+
+    <div class="inner-tb">
+      <button class="inner-btn active" onclick="innerTab('ch6','kc')">📖 知识清单</button>
+      <button class="inner-btn" onclick="innerTab('ch6','quiz')">📝 章节测试</button>
+    </div>
+
+    <div class="inner-tp active" id="kc-ch6">
+      <div class="overview-container">
+    <div class="overview-title">📖 本章总览</div>
+    <div class="overview"><div class="ov-card"><div class="ov-head">§6.1 外磁场对原子的作用 <span class="ov-count">5个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 原子磁矩(轨道+自旋)<br>&nbsp;&nbsp;&nbsp;· 朗德g因子<br>&nbsp;&nbsp;&nbsp;· 单电子原子的总磁矩<br>&nbsp;&nbsp;&nbsp;· 多电子原子的磁矩<br>&nbsp;&nbsp;&nbsp;· 原子受外磁场作用的附加能量</div></div>
+<div class="ov-card"><div class="ov-head">§6.2 物质的磁性 <span class="ov-count">4个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 物质的磁性分类<br>&nbsp;&nbsp;&nbsp;· 抗磁性<br>&nbsp;&nbsp;&nbsp;· 顺磁性<br>&nbsp;&nbsp;&nbsp;· 铁磁性</div></div>
+<div class="ov-card"><div class="ov-head">§6.3 顺磁共振 <span class="ov-count">1个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 顺磁共振(电子自旋共振)</div></div>
+<div class="ov-card"><div class="ov-head">§6.4 塞曼效应 <span class="ov-count">4个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 塞曼效应(正常/反常)<br>&nbsp;&nbsp;&nbsp;· 正常塞曼效应<br>&nbsp;&nbsp;&nbsp;· 反常塞曼效应<br>&nbsp;&nbsp;&nbsp;· 塞曼效应的偏振特性</div></div>
+<div class="ov-card"><div class="ov-head">§6.5 帕邢-Back效应 <span class="ov-count">2个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 帕邢-巴克效应<br>&nbsp;&nbsp;&nbsp;· 强磁场下的能级分裂</div></div>
+</div>
+  </div>
+
+  <div class="sec open">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §6.1 外磁场对原子的作用</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.1</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">原子磁矩(轨道+自旋)</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>原子磁矩由三部分组成：电子轨道磁矩、电子自旋磁矩和原子核磁矩。由于核质量远大于电子质量（约1836倍），核磁矩比电子磁矩小约三个数量级，通常可忽略。轨道磁矩方向与轨道角动量方向相反（电子带负电）：\( \vec{μ}_l = -\frac{e}{2m} \vec{P}_l \)。自旋磁矩方向与自旋角动量方向相反：\( \vec{μ}_s = -\frac{e}{m} \vec{P}_s \)。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.2</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">朗德g因子</div>
+          <div class="kc-body"><span class="kc-type">方法</span><p>朗德g因子是连接角动量与磁矩的关键量。对于单电子原子：\( g = 1 + \frac{j(j+1) + s(s+1) - l(l+1)}{2j(j+1)} \)。其中\( l \)为轨道角动量量子数，\( s \)为自旋量子数（\( s=1/2 \)），\( j \)为总角动量量子数。若\( s=0 \)则\( g=1 \)；若\( l=0 \)则\( g=2 \)。多电子原子需先通过LS耦合求出总轨道角动量\( L \)和总自旋角动量\( S \)，再由\( L \)和\( S \)耦合出总角动量\( J \)，代入类似公式计算。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.3</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">单电子原子的总磁矩</div>
+          <div class="kc-body"><span class="kc-type">方法</span><p>单电子原子中，电子的轨道磁矩\( \vec{μ}_l \)和自旋磁矩\( \vec{μ}_s \)都在绕总角动量\( \vec{P}_j \)旋进，它们的合成矢量\( \vec{μ} \)的大小和方向随时间变化，不是定值。但\( \vec{μ} \)在\( \vec{P}_j \)方向上的投影\( μ_j \)是定值，对外界产生实际效果的就是这个投影。总磁矩的表达式为：\( μ_j = g · \sqrt{j(j+1)} · μ_B \)，其中\( μ_B = \frac{eħ}{2m} \)为玻尔磁子。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.4</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">多电子原子的磁矩</div>
+          <div class="kc-body"><span class="kc-type">方法</span><p>多电子原子磁矩的计算步骤：(1)通过LS耦合求出电子的总轨道角动量\( L \)和总自旋角动量\( S \)；(2)由量子数\( L \)和\( S \)耦合出总角动量量子数\( J \)；(3)代入朗德g因子公式计算；(4)原子总磁矩\( μ_J = g · \sqrt{J(J+1)} · μ_B \)。其中\( L \)、\( S \)、\( J \)通过洪特规则和泡利不相容原理确定。对于多电子原子，可将最后一个电子与前\( n-1 \)个电子分开考虑，分别计算后再求和。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.5</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">原子受外磁场作用的附加能量</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>原子处于外磁场中时，磁矩受磁场力矩作用产生附加能量。弱磁场下：\( Δ E = M · g · μ_B · B \)，其中\( M \)为磁量子数，取值为\( -J, -J+1, ..., J-1, J \)共\( 2J+1 \)个。一个\( J \)能级分裂成\( 2J+1 \)层，相邻能层间隔为\( g · μ_B · B \)。强磁场下（帕邢-Back效应）：\( Δ E = μ_B B (m_L + 2m_S) \)，\( m_L \)和\( m_S \)分别独立取值。弱场中\( L \)和\( S \)先耦合成\( J \)再与外场作用；强场中\( L \)和\( S \)分别直接与外场作用。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      <div class="kc-area">
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §6.2 物质的磁性</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.12</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">物质的磁性分类</div>
+          <div class="kc-body"><span class="kc-type">事实</span><p>物质的磁性分为抗磁性、顺磁性、铁磁性、反铁磁性和亚铁磁性等。磁性可由磁化率\( \chi \)区分：\( \chi<0 \)为抗磁性物质，\( \chi>0 \)为顺磁性物质，铁磁性物质\( \chi\gg1 \)。单原子物质的磁性取决于原子的磁矩；由分子构成的物质则取决于分子磁矩。任何物质都具有磁性，在不均匀磁场中都会受到磁力作用。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.13</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">抗磁性</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>抗磁性起源于磁场对电子轨道运动的作用。原子中所有电子绕外磁场旋进形成电环流，因电子带负电，电环流产生的感生磁矩与磁场方向相反，对外显现抗磁性。抗磁性普遍存在于所有原子或分子中，但只有在总磁矩为零（\( J=0 \)）的情况下才会显现出来。电子轨道运动受温度影响小，因此抗磁性受温度影响小，磁化率\( \chi<0 \)。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.14</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">顺磁性</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>顺磁性是具有磁矩的原子（\( J≠0 \)）在外磁场中各种取向的平均效果。热运动使原子按玻尔兹曼分布，低能级（\( μ_z>0 \)）分布的原子更多，因此平均磁矩方向与磁场一致，对外显现顺磁性。顺磁磁化率满足居里定律：\( \chi = C/T \)，其中\( C \)为居里常数。温度升高时高低能级原子数差别减小，顺磁性减弱。顺磁性物质也具有抗磁性，只是较强的顺磁性掩盖了抗磁性。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.15</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">铁磁性</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>铁磁性的起因是物质中存在固有磁矩，且固有磁矩之间存在强烈的交换耦合。与顺磁性不同，铁磁物质中存在许多总磁矩不为零的"磁畴"——各磁畴的磁矩方向各不相同，无外场时对外不显示宏观磁化。加外磁场时，磁畴的磁矩方向强烈取向，使物质强烈磁化。铁磁性与固体结构相关，磁化率\( \chi\gg1 \)。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §6.3 顺磁共振</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.16</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">顺磁共振(电子自旋共振)</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>顺磁共振：顺磁原子处于磁场中能级发生等间距分裂，在垂直于恒定磁场方向加上特定频率的交变磁场时，相邻能级间发生共振跃迁吸收能量的现象。共振条件：\( hν = gμ_B B \)（相邻能级间隔）。轨道磁矩因频繁变化平均贡献仅约1%，总磁矩绝大部分来自电子自旋，因此顺磁共振也称为电子自旋共振（ESR）。固体或液体样品中因邻近原子影响，能级间隔不再相等，常出现多个共振峰；核磁矩的影响还可能产生波谱的精细结构。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §6.4 塞曼效应</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.6</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">塞曼效应(正常/反常)</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>塞曼效应是指光源放在磁场中时，所发光谱线分裂成多条且每条谱线都是偏振光的现象，由P. 塞曼于1896年发现。正常塞曼效应发生在自旋\( s=0 \)的情况下，谱线分裂成3条，间隔为一个洛伦兹单位（\( L = \frac{eB}{4\pi m c} \)）。反常塞曼效应发生在自旋\( s≠0 \)的情况下，由于\( g \)因子不为1，谱线分裂成多于3条。塞曼效应证实了原子磁矩的空间量子化，可用于测量电子的荷质比和天体磁场。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.7</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">正常塞曼效应</div>
+          <div class="kc-body"><span class="kc-type">方法</span><p>正常塞曼效应条件为\( s=0 \)、\( g_1=g_2=1 \)，谱线分裂成3条，频率间隔为一个洛伦兹单位。跃迁选择定则：\( Δ M = 0 \)产生\( \pi \)线（电矢量平行于磁场\( B \)），\( Δ M = \pm 1 \)产生\( \sigma \)线（电矢量垂直于\( B \)）。沿垂直于\( B \)方向观察可见3条平面偏振光；沿\( B \)方向观察，\( \pi \)线不出现，\( \sigma \)线为圆偏振光（\( \sigma^+ \)右旋、\( \sigma^- \)左旋）。经典算例：Cd原子6438Å谱线（\( ^1D_2→{}^1P_1 \)）分裂为3条。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.8</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">反常塞曼效应</div>
+          <div class="kc-body"><span class="kc-type">方法</span><p>反常塞曼效应发生在自旋\( s≠0 \)的原子中，由于\( g \)因子不为1，谱线分裂成多于3条。磁能级分裂间隔为\( Δ E = M g μ_B B \)，跃迁频率差为\( Δν = (M_2g_2 - M_1g_1)L \)。经典算例：Na D1线（\( ^2P_{1/2}→{}^2S_{1/2} \)，5896Å）分裂为4条谱线；Na D2线（\( ^2P_{3/2}→{}^2S_{1/2} \)，5890Å）分裂为6条谱线。这是由于上下能级的\( g \)因子不同，裂距不相等所致。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.11</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">塞曼效应的偏振特性</div>
+          <div class="kc-body"><span class="kc-type">事实</span><p>塞曼效应中，沿光的传播方向反方向（逆着光传播方向）观察：若电矢量作顺时针转动称为右偏振光；作逆时针转动称为左偏振光。\( \pi \)线（\( Δ M=0 \)）的电矢量平行于\( B \)，沿\( B \)方向观察不出现；\( \sigma^+ \)线（\( Δ M=+1 \)）为右旋圆偏振光；\( \sigma^- \)线（\( Δ M=-1 \)）为左旋圆偏振光。光子的角动量方向和电矢量旋转方向成右手螺旋法则：左偏振光的传播方向和角动量方向相同，右偏振光的传播方向与角动量方向相反。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §6.5 帕邢-Back效应</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.9</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">帕邢-巴克效应</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>帕邢-巴克效应是强磁场中的塞曼效应。物理条件：外磁场足够强，使得自旋-轨道耦合被破坏，\( L \)和\( S \)不再耦合形成\( J \)，而是分别独立绕外磁场进动。此时反常塞曼效应被帕邢-巴克效应取代，谱线分裂恢复到3条（类似于正常塞曼效应），因此说它"趋于正常塞曼效应"。从弱场到强场是一个连续过渡过程，中间区域能级结构复杂。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC6.10</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">强磁场下的能级分裂</div>
+          <div class="kc-body"><span class="kc-type">方法</span><p>强磁场下原子附加能量为\( Δ E = μ_B B (m_L + 2m_S) \)，\( m_L \)和\( m_S \)分别独立取值。弱磁场下为\( Δ E = M g μ_B B \)，总角动量量子数\( J \)起主导作用。二者本质区别：弱场中\( L \)和\( S \)先耦合成\( J \)再与外场作用；强场中\( L \)和\( S \)直接分别与外场作用，\( L-S \)耦合被破坏。高分辨率下可观察到每一条\( \sigma \)成分还包含靠得很近的2条谱线，这是因为强场中仍存在较弱的\( L-S \)耦合剩余效应。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
+
+    <div class="inner-tp" id="quiz-ch6">
+      <div class="tp" id="quiz">
+  <div class="section-title">章节测试（18题）</div>
+    <div class="qc" data-a="原子磁矩包括电子轨道磁矩、电子自旋磁矩和原子核磁矩三部分。由于原子核质量远大于电子质量（约1836倍），原子核磁矩比电子磁矩小约三个数量级，因此在讨论原子磁矩时可忽略核磁矩的贡献。">
+      <div class="qh"><div class="qn">1</div><span class="qk">KC6.1 [简答]</span></div>
+      <div class="qt">什么是原子磁矩？它由哪几部分组成？为什么原子核磁矩通常可以忽略？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="公式: g = 1 + [j(j+1) + s(s+1) - l(l+1)] / [2j(j+1)]。
+对于2P1/2: l=1, s=1/2, j=1/2, 代入得g=2/3≈0.667。
+对于2P3/2: l=1, s=1/2, j=3/2, 代入得g=4/3≈1.333。">
+      <div class="qh"><div class="qn">2</div><span class="qk">KC6.2 [简答]</span></div>
+      <div class="qt">写出单电子原子朗德g因子的计算公式，并说明各符号的含义。分别计算态2P1/2和2P3/2的g因子值。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="电子的轨道磁矩μl和自旋磁矩μs都在绕总角动量Pj旋进，它们的合成矢量μ的大小和方向都在随时间变化，因此不是定值。但μ在Pj方向上的投影μj是定值，对外界产生实际效果的就是这个投影μj。">
+      <div class="qh"><div class="qn">3</div><span class="qk">KC6.3 [简答]</span></div>
+      <div class="qt">为什么说单电子原子的总磁矩不是一个定值？对外界产生实际效果的是哪个量？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="步骤：(1)通过LS耦合求出电子的总轨道角动量L和总自旋角动量S；(2)由量子数L和S耦合出总角动量量子数J；(3)代入g因子公式计算朗德因子；(4)原子磁矩μJ = g·√[J(J+1)]·μB。L、S、J通过洪特规则和泡利原理确定。">
+      <div class="qh"><div class="qn">4</div><span class="qk">KC6.4 [简答]</span></div>
+      <div class="qt">简述多电子原子磁矩的计算步骤。朗德因子公式中的L、S、J如何通过LS耦合确定？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="附加能量 ΔE = M·g·μB·B，其中M为磁量子数（取值 -J, -J+1, ..., J-1, J），共2J+1个取值。一个J能级分裂成2J+1层，相邻能层间隔为 g·μB·B。">
+      <div class="qh"><div class="qn">5</div><span class="qk">KC6.5 [简答]</span></div>
+      <div class="qt">原子处于弱外磁场中获得的附加能量表达式是什么？一个J能级分裂成几层？相邻能层间隔多大？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="塞曼效应是指光源放在磁场中时，所发光谱线分裂成多条且每条谱线都是偏振光的现象。正常塞曼效应发生在自旋s=0的情况下，谱线分裂成3条，间隔为一个洛伦兹单位。反常塞曼效应发生在自旋s≠0的情况下，由于g因子不为1，谱线分裂成多于3条。">
+      <div class="qh"><div class="qn">6</div><span class="qk">KC6.6 [简答]</span></div>
+      <div class="qt">什么是塞曼效应？正常塞曼效应和反常塞曼效应的本质区别是什么？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="跃迁选择定则：ΔM = 0 产生π线（电矢量平行于磁场B）；ΔM = ±1 产生σ线（电矢量垂直于B）。π线沿垂直于B方向观察为平面偏振光，沿B方向观察不出现。σ线沿B方向观察为圆偏振光（左旋或右旋），垂直于B方向观察为平面偏振光。">
+      <div class="qh"><div class="qn">7</div><span class="qk">KC6.7 [简答]</span></div>
+      <div class="qt">正常塞曼效应的跃迁选择定则是什么？π线和σ线的偏振特性分别是什么？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="正常塞曼效应条件满足（自旋s=0，g1=g2=1）。上能级1D2: J=2, M2=-2,-1,0,1,2; 下能级1P1: J=1, M1=-1,0,1。根据ΔM=0,±1选择定则，共有9种跃迁，但只有3种频率：ΔM=-1 (σ-), ΔM=0 (π), ΔM=+1 (σ+)，每种对应3条谱线叠加但仍为3条分裂谱线，间隔为洛伦兹单位。">
+      <div class="qh"><div class="qn">8</div><span class="qk">KC6.7 [简答]</span></div>
+      <div class="qt">Cd原子6438Å谱线来源于1D2→1P1跃迁。分析该谱线在磁场中的正常塞曼效应，说明分裂情况和跃迁图。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="对于32P1/2→32S1/2 (Na D1, 5896Å): 2P1/2的g=2/3, J=1/2, M=±1/2; 2S1/2的g=2, J=1/2, M=±1/2。由ΔM=0,±1定则，可分裂成4条谱线。对于32P3/2→32S1/2 (Na D2, 5890Å): 2P3/2的g=4/3, J=3/2, M=±1/2,±3/2; 2S1/2的g=2。共分裂成6条谱线。">
+      <div class="qh"><div class="qn">9</div><span class="qk">KC6.8 [简答]</span></div>
+      <div class="qt">分析Na5890Å和Na5896Å谱线（32P1/2→32S1/2和32P3/2→32S1/2）在弱磁场中的反常塞曼效应，分别能观察到多少条谱线？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="帕邢-巴克效应是强磁场中的塞曼效应。条件：外磁场足够强，使得自旋-轨道耦合被破坏，L和S不再耦合形成J，而是分别独立绕外磁场进动。此时反常塞曼效应被帕邢-巴克效应取代，谱线分裂恢复到3条（类似于正常塞曼效应），因此说它趋于正常塞曼效应。">
+      <div class="qh"><div class="qn">10</div><span class="qk">KC6.9 [简答]</span></div>
+      <div class="qt">什么是帕邢-巴克效应？它发生的物理条件是什么？为什么说它'趋于正常塞曼效应'？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="强磁场下：ΔE = μB·B·(mL + 2mS)，mL和mS分别独立取值。弱磁场下：ΔE = M·g·μB·B，总角动量量子数J起主导作用。二者区别在于：弱场中L和S先耦合成J再与外场作用；强场中L和S直接分别与外场作用。">
+      <div class="qh"><div class="qn">11</div><span class="qk">KC6.10 [简答]</span></div>
+      <div class="qt">强磁场下原子附加能量的表达式是什么？与弱磁场情况有何不同？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="沿光的传播方向反方向（即逆着光传播方向）观察：若电矢量作顺时针转动称为右偏振光；作逆时针转动称为左偏振光。光子的角动量方向和电矢量旋转方向成右手螺旋法则：左偏振光的传播方向和角动量方向相同，右偏振光的传播方向与角动量方向相反。">
+      <div class="qh"><div class="qn">12</div><span class="qk">KC6.11 [简答]</span></div>
+      <div class="qt">在塞曼效应中，如何定义左偏振光和右偏振光？光的角动量方向与电矢量旋转方向有什么关系？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="分为抗磁性、顺磁性、铁磁性、反铁磁性和亚铁磁性等。磁化率χ<0为抗磁性物质，χ>0为顺磁性物质，铁磁性物质χ>>1。单原子物质的磁性决定于原子的磁矩；由分子构成的物质则决定于分子磁矩。">
+      <div class="qh"><div class="qn">13</div><span class="qk">KC6.12 [简答]</span></div>
+      <div class="qt">物质的磁性分为哪几类？磁化率χ的正负如何区分物质的磁性类型？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="抗磁性起源于磁场对电子轨道运动的作用。原子中所有电子绕外磁场旋进形成电环流，因电子带负电，电环流产生的感生磁矩与磁场方向相反，对外显现抗磁性。抗磁性普遍存在于所有原子或分子中，但只有在总磁矩为零的情况下才会显现出来。电子轨道运动受温度影响小，因此抗磁性受温度影响小。">
+      <div class="qh"><div class="qn">14</div><span class="qk">KC6.13 [简答]</span></div>
+      <div class="qt">抗磁性的物理起源是什么？在什么情况下抗磁性才会显现出来？抗磁性受温度影响大吗？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="顺磁性是具有磁矩的原子（J≠0）在外磁场中各种取向的平均效果。磁场使原子能级分裂，低能级μz>0分布的原子更多。热运动使原子按玻尔兹曼分布，温度升高时高低能级原子数差别减小，因此顺磁性减弱。顺磁性磁化率与绝对温度成反比，即χ = C/T（居里定律），C为居里常数。顺磁性物质也具有抗磁性，只是较强的顺磁性掩盖了抗磁性。">
+      <div class="qh"><div class="qn">15</div><span class="qk">KC6.14 [简答]</span></div>
+      <div class="qt">顺磁性的物理机制是什么？为什么顺磁磁化率满足居里定律χ ∝ 1/T？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="本质区别：(1)顺磁中原子固有磁矩孤立，无外场时无序；铁磁中固有磁矩间存在强烈的交换耦合。(2)铁磁存在磁畴——许多总磁矩不为零的小区域，各磁畴方向不同，对外不显示宏观磁化。(3)加外场时磁畴磁矩方向强烈取向，使物质强烈磁化。(4)铁磁性χ>>1，与固体结构相关。">
+      <div class="qh"><div class="qn">16</div><span class="qk">KC6.15 [简答]</span></div>
+      <div class="qt">铁磁性与顺磁性的本质区别是什么？什么是磁畴？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="顺磁共振：顺磁原子处于磁场中能级发生等间距分裂，在垂直于恒定磁场方向加上特定频率的交变磁场时，相邻能级间发生共振跃迁吸收能量的现象。共振条件：hν = gμBB（相邻能级间隔）。由于轨道磁矩的频繁变化导致其平均贡献仅约1%，总磁矩绝大部分来自电子自旋，因此顺磁共振也称电子自旋共振（ESR）。">
+      <div class="qh"><div class="qn">17</div><span class="qk">KC6.16 [简答]</span></div>
+      <div class="qt">什么是顺磁共振（电子自旋共振）？简述其共振条件。为什么顺磁共振也称为电子自旋共振？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="固体或液体中，电子不仅受本原子内电子影响，还受到邻近原子中电子的作用，它们在磁场中的分裂比单原子复杂得多，能层间隔不再相等。一个共振峰对应一个能层间隔，出现多个峰说明有多种大小不同的能层间隔。在某些情况下，一个共振峰还会分裂成几个很相近的峰（波谱的精细结构），这是原子核磁矩的影响。">
+      <div class="qh"><div class="qn">18</div><span class="qk">KC6.16 [简答]</span></div>
+      <div class="qt">为什么固体或液体样品做顺磁共振实验时通常出现多个共振峰？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+</div>
+    </div>
+  </div>
+  <div class="ch-tp" id="ch-ch7" style="--ch-pd:#3a1010;--ch-pm:#b03030">
+    <div class="ch-hd">
+      <h2>第七章 第七章 X射线</h2>
+      <div class="ch-st"><span>12 个KCs</span><span>15 道自测题</span></div>
+    </div>
+
+    <div class="inner-tb">
+      <button class="inner-btn active" onclick="innerTab('ch7','kc')">📖 知识清单</button>
+      <button class="inner-btn" onclick="innerTab('ch7','quiz')">📝 章节测试</button>
+    </div>
+
+    <div class="inner-tp active" id="kc-ch7">
+      <div class="overview-container">
+    <div class="overview-title">📖 本章总览</div>
+    <div class="overview"><div class="ov-card"><div class="ov-head">§7.1 X射线的发现及其波性质 <span class="ov-count">4个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· X射线的发现与基本性质<br>&nbsp;&nbsp;&nbsp;· X射线的产生<br>&nbsp;&nbsp;&nbsp;· X射线的偏振证明<br>&nbsp;&nbsp;&nbsp;· 布拉格公式与X射线衍射</div></div>
+<div class="ov-card"><div class="ov-head">§7.2 X射线产生的机制 <span class="ov-count">6个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· X射线连续谱与韧致辐射<br>&nbsp;&nbsp;&nbsp;· 最短波长(截止波长)<br>&nbsp;&nbsp;&nbsp;· X射线标识谱<br>&nbsp;&nbsp;&nbsp;· K系、L系等线系<br>&nbsp;&nbsp;&nbsp;· 内层电子跃迁机制<br>&nbsp;&nbsp;&nbsp;· 莫塞莱定律</div></div>
+<div class="ov-card"><div class="ov-head">§7.3 X射线的吸收 <span class="ov-count">2个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· X射线的吸收(朗伯-比尔定律)<br>&nbsp;&nbsp;&nbsp;· 吸收限</div></div>
+</div>
+  </div>
+
+  <div class="sec open">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §7.1 X射线的发现及其波性质</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC7.1</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">X射线的发现与基本性质</div>
+          <div class="kc-body"><span class="kc-type">事实</span><p>1895年11月8日，德国物理学家伦琴在研究阴极射线时意外发现了一种穿透力极强的新射线，命名为X射线(后也称伦琴射线)。X射线波长约为 \(1\ \text{Å}\) 左右，人眼不可见，但能使荧光物质发光、使气体电离、使照相底片感光，并能透过可见光不能透过的物体。根据穿透能力，X射线分为硬X射线(波长短、穿透力强)和软X射线(波长较长、穿透力较弱)。X射线的发现是19世纪末20世纪初物理学三大发现之一，标志着现代物理学的产生，并直接推动了放射性现象的发现。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC7.2</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">X射线的产生</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>X射线一般通过高速电子打击金属靶产生。产生装置为X射线管，是一个高真空玻璃管(管内压强约 \(10^{-6}\ \text{mmHg}\) 至 \(10^{-8}\ \text{mmHg}\))，内有两个电极：阴极(K)发射电子，阳极(A)为金属靶。阴极与阳极之间加有数万至十几万伏的高压电场，电子被加速后高速撞击阳极靶，电子急剧减速时将动能转化为辐射能，从而发射X射线。阳极靶材一般选用高熔点金属，如钨、钼、铜等，以承受电子撞击产生的高温。调节管电压可改变X射线的波长分布。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC7.3</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">X射线的偏振证明</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>1906年，巴克拉发现X射线的偏振现象，证明了X射线是横波(电磁波)。实验方法为二次散射偏振实验：非偏振X射线沿z方向入射到第一散射体(如石蜡)，若X射线是横波，散射体内的电子将在垂直于传播方向的x-y平面内做受迫振动，从而发出偏振波。从x方向观察时，可得到y方向偏振的X射线。再让该偏振X射线通过第二散射体：在z方向能观察到强的散射X射线，而在y方向则观察不到，从而验证了X射线的横波性质。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC7.4</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">布拉格公式与X射线衍射</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>1912年，劳厄发现X射线通过晶体时产生衍射现象，证明X射线是一种波长较短的电磁波。随后布拉格父子成功解释了X射线晶体衍射机理，提出了布拉格公式：\(2d\sinθ = nλ\)。其中 \(d\) 为晶面间距，\(θ\) 为掠射角(入射线与晶面的夹角)，\(n\) 为衍射级数(正整数)，\(λ\) 为X射线波长。利用该公式，通过测量衍射角 \(θ\) 可计算X射线波长或晶体的晶面间距。布拉格父子于1913年设计出第一台X射线分光计，并利用它发现了特征X射线。该原理在晶体结构分析和X射线光谱学中有重要应用。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      <div class="kc-area">
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §7.2 X射线产生的机制</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC7.5</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">X射线连续谱与韧致辐射</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>X射线连续谱是高速电子撞击金属靶时，电子在靶原子核库仑场作用下急剧减速而产生的电磁辐射，称为韧致辐射(bremsstrahlung)。由于电子与靶原子核的碰撞是随机的，不同电子损失的能量不同，辐射出的光子频率连续变化，形成从某最短波长到长波方向的连续谱分布。连续谱的形状与管电压有关，电压越高则谱线向短波方向扩展，强度也越大。连续谱叠加了标识谱线，共同构成X射线谱。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC7.6</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">最短波长(截止波长)</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>连续谱中存在一个最短波长(截止波长) \(λ_{\min}\)，对应于电子动能全部转化为一个光子的能量。由能量守恒：\(eV = hν_{\max} = \frac{hc}{λ_{\min}}\)，因此 \(λ_{\min} = \frac{hc}{eV}\)。式中 \(e\) 为电子电荷，\(V\) 为管电压，\(h\) 为普朗克常量，\(c\) 为光速。当管电压 \(V = 50\ \text{kV}\) 时，\(λ_{\min} ≈ 0.0248\ \text{nm}\)。该公式是量子论早期的重要验证之一，说明X射线光子的能量来源于电子动能的转化。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC7.7</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">X射线标识谱</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>X射线标识谱(特征X射线)是叠加在连续谱上的线状谱，其谱线波长由靶材元素种类决定，与入射电子能量无关(仅需能量足够大以激发该谱系)，因此称为标识谱。每种元素都有自己独特的标识X射线谱，反映了原子内层电子的能级结构。标识谱的发现是布拉格父子于1913年利用X射线分光计完成的，它揭示了原子内层结构的奥秘，为理解原子结构提供了重要手段。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC7.8</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">K系、L系等线系</div>
+          <div class="kc-body"><span class="kc-type">事实</span><p>X射线标识谱由多个线系组成，波长最短的是K系，此外还有L系、M系等。各元素的标识谱具有相似结构：K系是最内层(n=1)以外的各层电子跃迁到K层(n=1)的结果；L系是n=2以外的各层电子跃迁到L层(n=2)的结果，以此类推。K系谱线波长最短(能量最高)，L系次之。不同元素的同一条线系结构相似，但波长随原子序数增大而变短。标识谱不具有周期性，因其来源于内层电子跃迁，而内层电子都是填满的。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC7.9</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">内层电子跃迁机制</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>X射线标识谱来源于原子内层电子的跃迁。要产生标识谱，必须先在原子内层产生电子空位，主要有两种方法：(1)高速电子与靶原子发生非弹性碰撞，将内层电子击出；(2)原子吸收能量足够高的光子，通过光电效应使内层电子电离。内层产生空位后，外层电子跃迁填充该空位，同时释放出能量等于两能级差的光子，即标识X射线。跃迁遵循单电子辐射跃迁选择定则：\(Δ l = \pm 1\)，\(Δ j = 0, \pm 1\)。K层电离所需能量最大，L层次之。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC7.10</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">莫塞莱定律</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>莫塞莱于1913年系统研究了各种元素的特征X射线，发现特征X射线频率的平方根与原子序数Z成线性关系，即莫塞莱定律：\(\sqrt{
+ν} = a(Z - b)\)。对于K系谱线，有 \(\sqrt{
+ν_K} = \sqrt{\frac{3}{4}Rc}(Z - 1)\)，其中 \(R\) 为里德伯常量，\(c\) 为光速，\(b\) 为屏蔽常数(对K系 \(b ≈ 1\)，L系 \(b ≈ 7.4\))。莫塞莱定律的重要意义在于：(1)确立了原子序数Z作为元素周期表排列顺序的物理依据；(2)为当时尚未发现的元素提供了预测手段；(3)验证了玻尔原子理论中能级公式的正确性。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §7.3 X射线的吸收</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC7.11</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">X射线的吸收(朗伯-比尔定律)</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>X射线通过物质时，强度因吸收和散射而衰减，服从朗伯-比尔定律：\(I = I_0 e^{-μ x}\)，其中 \(I_0\) 为入射强度，\(I\) 为穿过厚度 \(x\) 后的强度，\(μ\) 为衰减系数。衰减由两个过程引起：吸收(光电效应等)和散射(仅改变方向使原方向强度减弱)。引入原子衰减常数 \(μ_a\)、原子吸收系数 \(\tau_a\) 和原子散射系数 \(\sigma_a\)，有 \(μ = \tau + \sigma\)。吸收系数与波长的关系近似为 \(μ/
+ho ∝ λ^3 Z^4\)，即波长越短(硬X射线)贯穿能力越强，原子序数越高的物质吸收越强。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC7.12</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">吸收限</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>X射线吸收谱中，吸收系数随波长减小而平缓降低，但当波长减小到某些特定值时，吸收系数会突然增大，这些突变位置称为吸收限。吸收限的产生原因是：当X射线光子的能量恰好等于原子某内层电子的电离能时，发生强烈的共振吸收(光电效应)，使吸收系数骤增。每种元素有多个吸收限，分别对应K层、L层、M层等不同内层电子的电离阈值。K吸收限的波长最短(能量最高)，L吸收限次之，以此类推。吸收限的位置是元素的特征，可通过测量吸收限来确定元素种类。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
+
+    <div class="inner-tp" id="quiz-ch7">
+      <div class="tp" id="quiz">
+  <div class="section-title">章节测试（15题）</div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">1</div><span class="qk">KC7.1 [选择]</span></div>
+      <div class="qt">X射线是哪一年由谁发现的？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 1895年，伦琴</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 1896年，贝克勒尔</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 1897年，汤姆孙</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 1901年，劳厄</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="C">
+      <div class="qh"><div class="qn">2</div><span class="qk">KC7.1 [选择]</span></div>
+      <div class="qt">以下关于X射线的描述哪一项是错误的？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. X射线波长约1埃，人眼不可见</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 硬X射线波长较短，穿透力较强</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. X射线不能使气体电离</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. X射线具有反射、折射、干涉等波的性质</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">3</div><span class="qk">KC7.2 [选择]</span></div>
+      <div class="qt">X射线管中阳极靶材一般用什么材料？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 低熔点金属</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 高熔点金属，如钨、钼、铜等</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 靶材对X射线谱没有影响</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 只需导电，与熔点无关</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="通过二次散射偏振实验：非偏振X射线经过第一次散射后成为偏振波，再经过第二次散射可验证其偏振方向。">
+      <div class="qh"><div class="qn">4</div><span class="qk">KC7.3 [简答]</span></div>
+      <div class="qt">如何通过实验证明X射线是横波？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">5</div><span class="qk">KC7.4 [计算]</span></div>
+      <div class="qt">布拉格公式的正确形式是？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 2d sinq = nl</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. d sinq = nl</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 2d cosq = nl</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. d cosq = nl</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="2d sinq = nl。d为晶面间距，q为掠射角，n为衍射级数，l为X射线波长。用于测量X射线波长和晶体结构。">
+      <div class="qh"><div class="qn">6</div><span class="qk">KC7.4 [简答]</span></div>
+      <div class="qt">布拉格公式中各符号的含义是什么？有什么应用？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">7</div><span class="qk">KC7.5 [选择]</span></div>
+      <div class="qt">X射线连续谱产生的机制是什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 原子内层电子跃迁</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 高速电子减速产生的韧致辐射</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 外层电子跃迁</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 原子核衰变</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="0.0248 nm">
+      <div class="qh"><div class="qn">8</div><span class="qk">KC7.6 [计算]</span></div>
+      <div class="qt">若X射线管电压为50kV，求连续谱的最短波长。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">9</div><span class="qk">KC7.7 [选择]</span></div>
+      <div class="qt">X射线标识谱的特征是什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 连续谱</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 谱线波长由靶材元素决定</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 所有元素标识谱相同</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 标识谱在可见光区</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="标识谱来自内层电子跃迁。不同元素核电荷数Z不同，内层能级能量不同，跃迁时发出的X射线波长也不同。">
+      <div class="qh"><div class="qn">10</div><span class="qk">KC7.7 [简答]</span></div>
+      <div class="qt">为什么X射线标识谱具有元素特征？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="K">
+      <div class="qh"><div class="qn">11</div><span class="qk">KC7.8 [填空]</span></div>
+      <div class="qt">X射线标识谱中波长最短的线系是____系。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="必须先在内层产生电子空位，方法有两种：（1）高速电子非弹性碰撞击出内层电子；（2）原子吸收足够能量的光子发生光电效应。然后外层电子跃迁填充空位，释放X射线。">
+      <div class="qh"><div class="qn">12</div><span class="qk">KC7.9 [简答]</span></div>
+      <div class="qt">产生X射线标识谱需要什么条件？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">13</div><span class="qk">KC7.10 [计算]</span></div>
+      <div class="qt">莫塞莱定律指出特征X射线频率与原子序数的关系为？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 频率与Z成正比</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 频率的平方根与Z成正比</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 频率与Z的平方成正比</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 频率与Z无关</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">14</div><span class="qk">KC7.11 [选择]</span></div>
+      <div class="qt">X射线通过物质时强度衰减服从什么规律？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>\(I = I_0 e^{-\mu x}\)</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>\(I = I_0 e^{\mu x}\)</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>\(I = I_0 (1-\mu x)\)</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>\(I = I_0 / (\mu x)\)</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="吸收限">
+      <div class="qh"><div class="qn">15</div><span class="qk">KC7.12 [填空]</span></div>
+      <div class="qt">X射线吸收谱中的突变位置称为____。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+</div>
+    </div>
+  </div>
+  <div class="ch-tp" id="ch-ch8" style="--ch-pd:#1a1a2e;--ch-pm:#3d3d6b">
+    <div class="ch-hd">
+      <h2>第八章 第八章 原子核物理概论</h2>
+      <div class="ch-st"><span>21 个KCs</span><span>26 道自测题</span></div>
+    </div>
+
+    <div class="inner-tb">
+      <button class="inner-btn active" onclick="innerTab('ch8','kc')">📖 知识清单</button>
+      <button class="inner-btn" onclick="innerTab('ch8','quiz')">📝 章节测试</button>
+    </div>
+
+    <div class="inner-tp active" id="kc-ch8">
+      <div class="overview-container">
+    <div class="overview-title">📖 本章总览</div>
+    <div class="overview"><div class="ov-card"><div class="ov-head">§8.1 原子核物理的研究对象 <span class="ov-count">4个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 原子核物理发展史<br>&nbsp;&nbsp;&nbsp;· 原子核的组成(核子)<br>&nbsp;&nbsp;&nbsp;· 核素、同位素、同量异位素<br>&nbsp;&nbsp;&nbsp;· 核素图与稳定区</div></div>
+<div class="ov-card"><div class="ov-head">§8.2 原子核的基本性质 <span class="ov-count">5个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 原子核质量与结合能<br>&nbsp;&nbsp;&nbsp;· 质量亏损与质能关系<br>&nbsp;&nbsp;&nbsp;· 比结合能(平均结合能)曲线<br>&nbsp;&nbsp;&nbsp;· 原子核自旋<br>&nbsp;&nbsp;&nbsp;· 原子核磁矩</div></div>
+<div class="ov-card"><div class="ov-head">§8.4 原子核的结构模型 <span class="ov-count">4个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 半经验质量公式(液滴模型)<br>&nbsp;&nbsp;&nbsp;· 原子核结构模型(液滴/壳层)<br>&nbsp;&nbsp;&nbsp;· 液滴模型<br>&nbsp;&nbsp;&nbsp;· 壳层模型与幻数</div></div>
+<div class="ov-card"><div class="ov-head">§8.5 原子核的放射衰变 <span class="ov-count">2个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 放射性衰变(α/β/γ)<br>&nbsp;&nbsp;&nbsp;· 衰变规律与半衰期</div></div>
+<div class="ov-card"><div class="ov-head">§8.6 原子核反应 <span class="ov-count">1个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 原子核反应</div></div>
+<div class="ov-card"><div class="ov-head">§8.7 原子核裂变与聚变 <span class="ov-count">3个知识点</span></div><div class="ov-body">&nbsp;&nbsp;&nbsp;· 核裂变<br>&nbsp;&nbsp;&nbsp;· 核聚变<br>&nbsp;&nbsp;&nbsp;· 核能应用</div></div>
+</div>
+  </div>
+
+  <div class="sec open">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §8.1 原子核物理的研究对象</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.1</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">原子核物理发展史</div>
+          <div class="kc-body"><span class="kc-type">事实</span><p>1896年贝克勒尔发现铀的放射现象，标志着原子核物理学的开端。1898年居里夫妇发现钋和镭，1899年发现α、β射线，1900年发现γ射线。1911年卢瑟福提出原子核式模型，1919年首次实现人工核反应(用α粒子从氮核打出质子)。1932年查德威克发现中子，海森伯随即提出原子核由质子和中子组成。1934年约里奥-居里夫妇发现人工放射性。1939年哈恩和斯特拉斯曼发现重核裂变，同年玻尔和惠勒提出裂变的液滴模型理论。1942年费米建成第一座核反应堆，1954年苏联建成第一座原子能发电站。我国1958年建成第一座重水反应堆，1964年成功试爆原子弹，1967年试爆氢弹成功。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.2</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">原子核的组成(核子)</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>原子核由质子(proton)和中子(neutron)组成，两者统称为核子(nucleon)。质子带正电(电荷量为 \(+e\))，中子呈电中性。核子质量：质子质量 \(m_p = 1.007276  \text{u}\)，中子质量 \(m_n = 1.008665  \text{u}\)。原子核表示为 \(\ce{^A_Z X}\)，其中 \(Z\) 为质子数(原子序数)，\(N\) 为中子数，\(A = Z + N\) 为质量数(核子数)。在发现中子之前，人们曾将原子核误认为是质子和电子的组成体，但这无法解释核自旋等问题。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.3</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">核素、同位素、同量异位素</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>核素(nuclide)指具有特定质子数Z和中子数N的原子核类型。同位素(isotope)是质子数相同(Z相同)但质量数A不同(中子数不同)的核素，它们在周期表中位置相同，化学性质基本相同。同量异位素(isobar)是质量数A相同但质子数Z不同的核素，即核子总数相同但质子-中子组成不同。例如 \(\ce{^14_6C}\) 和 \(\ce{^14_7N}\) 是同量异位素，而 \(\ce{^1_1H}\)、\(\ce{^2_1H}\)、\(\ce{^3_1H}\) 互为同位素。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.4</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">核素图与稳定区</div>
+          <div class="kc-body"><span class="kc-type">事实</span><p>核素图是以中子数N为横坐标、质子数Z为纵坐标的二维图，每个格点代表一种核素。图中稳定核素几乎全部落在一条光滑曲线附近，称为核素稳定区(核素半岛)。轻核区稳定核素满足 \(N ≈ Z\)；随Z增大，稳定线逐渐向 \(N > Z\) 方向偏离，因为质子间的库仑斥力随Z增大而增强，需要更多中子提供核力以维持稳定。稳定线上侧为缺中子核区，下侧为丰中子核区。天然存在约300个核素(其中280多个稳定)，人工制造的放射性核素达1600多个，总计约2000个核素。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      <div class="kc-area">
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §8.2 原子核的基本性质</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.5</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">原子核质量与结合能</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>原子核由质子和中子组成，其质量小于组成核子的质量之和，这个差值称为质量亏损。结合能 \(E_B\) 是将原子核分解为单个核子所需的最小能量，由质能关系 \(E_B = Δ m · c^2\) 决定。若原子核质量为 \(M\)，质子质量 \(m_p\)，中子质量 \(m_n\)，则结合能为 \(E_B = [Z m_p + (A-Z) m_n - M]c^2\)。原子质量单位 \(1  \text{u} = 1.66054 × 10^{-27}  \text{kg}\)，对应的能量为 \(931.5  \text{MeV}\)。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.6</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">质量亏损与质能关系</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>质量亏损(mass defect)是指原子核的实际质量小于其组成核子(质子和中子)质量之和的现象。质量亏损的物理本质由爱因斯坦质能关系 \(E = mc^2\) 解释：核子结合成原子核时释放出一部分能量(结合能)，根据相对论，这部分能量的释放对应着质量的减少。质量亏损 \(Δ m\) 与结合能 \(E_B\) 的关系为 \(E_B = Δ m · c^2\)。例如氦-4核(\(\ce{^4_2He}\))的质量亏损 \(Δ m = 0.0304  \text{u}\)，对应结合能约 \(28.3  \text{MeV}\)。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.7</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">比结合能(平均结合能)曲线</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>比结合能(平均结合能)是每个核子的平均结合能，即 \(E_B/A\)。比结合能曲线以质量数A为横坐标、比结合能为纵坐标，呈现以下规律：(1)中等质量核(\(A ≈ 40-120\))的比结合能最大，约 \(8.5  \text{MeV/核子}\)，最稳定；(2)轻核和重核的比结合能较小，重核约 \(7.5  \text{MeV/核子}\)；(3)质量数 \(A > 30\) 的核素比结合能变化不大，说明核力具有饱和性；(4)曲线有周期性起伏，最大值出现在 \(A\) 为4的倍数处(如 \(\ce{^4_2He}\)、\(\ce{^{12}_6C}\)、\(\ce{^{16}_8O}\))。比结合能曲线是解释核裂变和核聚变释放能量的重要依据。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.9</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">原子核自旋</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>原子核具有角动量，总角动量又称为原子核自旋(nuclear spin)，是核内所有质子和中子的轨道角动量与自旋角动量的矢量和。核自旋量子数 \(I\) 的取值与质量数 \(A\) 的奇偶性有关：\(A\) 为偶数时 \(I\) 取整数(包括0)，\(A\) 为奇数时 \(I\) 取半整数。例如 \(\ce{^1_1H}\) 的 \(I = 1/2\)，\(\ce{^4_2He}\) 的 \(I = 0\)，\(\ce{^{14}_7N}\) 的 \(I = 1\)。核自旋在核磁共振(NMR)技术中有重要应用。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.10</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">原子核磁矩</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>原子核中质子带正电，其运动产生磁场，使原子核具有磁矩。中子虽不带电，但其内部电荷分布和自旋也对核磁矩有贡献。核磁矩表示为 \(\boldsymbol{μ}_I = g_I β_N \boldsymbol{I}\)，其中 \(β_N = eħ/(2m_p) = 5.0508 × 10^{-27}  \text{J/T}\) 为核磁子，\(g_I\) 为朗德因子(需实验测定)，\(\boldsymbol{I}\) 为核自旋。核磁矩比原子磁矩小约三个数量级(核磁子比玻尔磁子小约1836倍)，因此在原子物理中通常可忽略。常见核磁矩值：质子 \(+2.79255 β_N\)，中子 \(-1.91280 β_N\)，氘核 \(+0.857348 β_N\)。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §8.4 原子核的结构模型</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.8</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">半经验质量公式(液滴模型)</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>基于液滴模型，原子核结合能的半经验质量公式(贝特-魏茨泽克公式)包含以下项：(1)体积能 \(a_V A\)，正比于核子数A，反映核力的饱和性；(2)表面能 \(-a_S A^{2/3}\)，表面核子受核力不饱和，减小结合能；(3)库仑能 \(-a_C Z(Z-1)/A^{1/3}\)，质子间库仑斥力降低稳定性；(4)对称能 \(-a_A (A-2Z)^2/A\)，质子和中子数不对称时降低结合能；(5)成对能 \(\delta\)，与核子奇偶性有关(偶偶核最稳定，奇奇核最不稳定)。公式可准确计算大量核素的质量，预言核稳定性和衰变方式。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.13</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">原子核结构模型(液滴/壳层)</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>原子核结构模型是对原子核进行近似、唯象描述的理论框架。液滴模型将原子核类比为带电荷的液滴，核子间核力类比于液体分子间的短程吸引力，质子库仑斥力类比于液滴电荷排斥，能很好地解释核结合能、核裂变等整体性质。壳层模型则将核子视为在平均势场中独立运动，考虑自旋-轨道耦合后能正确预言幻数(2、8、20、28、50、82、126)，解释原子核的稳定性周期变化。此外还有费米气体模型和集体运动模型，分别侧重不同方面的核性质。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.14</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">液滴模型</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>液滴模型(liquid-drop model)由玻尔和惠勒于1939年提出。该模型将原子核类比于一个带电荷的不可压缩液滴：核子间核力类比于液体分子间的短程吸引力，使核聚集成球形；质子间的库仑斥力类比于液滴电荷之间的排斥作用，使核趋向于分裂。液滴模型成功导出了半经验质量公式，解释了原子核结合能的规律，并应用于核裂变机制的分析——复核的集体振荡导致形变，表面张力试图恢复球形，库仑力促使分裂，两者竞争决定裂变是否发生。该模型主要描述原子核的集体行为。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.15</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">壳层模型与幻数</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>壳层模型(shell model)由梅耶和延森于1949年提出(获1963年诺贝尔奖)。该模型假设每个核子在由其他核子形成的平均势场(如无限深球方势阱或谐振子势)中独立运动，并考虑核子的自旋-轨道耦合。求解薛定谔方程得到核子的能级次序，当质子数或中子数为幻数(magic number)2、8、20、28、50、82、126时，核子正好填满完整壳层，原子核特别稳定。幻数核的特点包括：丰度高、结合能大、中子俘获截面小、第一激发态能量高等。壳层模型成功解释了核自旋、核磁矩和同位素丰度等实验事实。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §8.5 原子核的放射衰变</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.16</span><div class="kc-tags"><span class="tag tag-must">必考</span> <span class="tag tag-hub">枢纽</span> </div></div>
+          <div class="kc-label">放射性衰变(α/β/γ)</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>放射性衰变是不稳定核素自发转变为另一种核素的过程。主要衰变方式：(1)α衰变：放出氦核 \(\ce{^4_2He}\)，子核质子数减2、质量数减4，如 \(\ce{^{238}_{92}U 
+ightarrow ^{234}_{90}Th + α}\)。α粒子能量分立，反映核能级的量子化。(2)β衰变：包括β⁻衰变(中子转质子，放出电子和反中微子，Z增1)、β⁺衰变(质子转中子，放出正电子和中微子，Z减1)和电子俘获(核俘获核外电子使质子转中子)。β能谱连续，泡利为此提出中微子假说。(3)γ衰变：原子核从激发态跃迁到低能态时发射γ光子(电磁辐射)，不改变Z和A。γ跃迁遵守宇称和角动量守恒。还存在内转换(IC，能量直接传给核外电子)和同质异能跃迁等特殊形式。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.17</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">衰变规律与半衰期</div>
+          <div class="kc-body"><span class="kc-type">原理</span><p>放射性衰变服从指数衰变律：\(N = N_0 e^{-λ t}\)，其中 \(N_0\) 为初始核数，\(λ\) 为衰变常数(单位时间衰变概率)，\(t\) 为时间。半衰期 \(T_{1/2}\) 是核数衰减到一半所需时间：\(T_{1/2} = \ln 2 / λ = 0.693 / λ\)。平均寿命 \(\tau = 1/λ = T_{1/2} / \ln 2\)。半衰期是每种放射性核素的标识特征。对于级联衰变(放射系)，母核衰变成子核，子核仍有放射性，逐级衰变直至稳定核素。自然界存在四个放射系：铀系(\(A=4n+2\))、锕系(\(A=4n+3\))、钍系(\(A=4n\))、镎系(\(A=4n+1\))。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §8.6 原子核反应</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.18</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">原子核反应</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>原子核反应是用具有一定能量的粒子轰击原子核使其性质发生变化的过程。核反应方程一般表示为 \(A(a,b)B\)，即靶核(入射粒子，出射粒子)剩余核，例如卢瑟福1919年实现的第一个人工核反应 \(\ce{^{14}_7N}(α, p)\ce{^{17}_8O}\)。反应能 \(Q\) 定义为反应前后总质量差对应的能量：\(Q = (M_A + m_a - M_B - m_b)c^2\)，\(Q > 0\) 为放能反应，\(Q < 0\) 为吸能反应。核反应截面 \(\sigma\) 描述反应概率，定义为每个靶核的有效作用面积。核反应机制包括库仑散射、核势散射、形成复核、削裂反应、掇拾反应等。按入射粒子能量分为低能(\(<100\text{MeV}\))、中能和高能核反应。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        <div class="sec">
+    <div class="sec-title" onclick="toggleSection(this)">▶ §8.7 原子核裂变与聚变</div>
+    <div class="sec-body">
+      <div class="kc-grid">
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.19</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">核裂变</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>核裂变(nuclear fission)是重原子核分裂为两个或多个中等质量核的过程。1939年哈恩和斯特拉斯曼发现中子轰击铀核产生裂变。典型裂变反应：\(\ce{^{235}_{92}U + n 
+ightarrow ^{236}_{92}U^* 
+ightarrow X + Y + (2\sim3)n}\)。裂变释放大量能量(每个 \(\ce{^{235}U}\) 裂变约 \(200\text{MeV}\))，来源于比结合能曲线——重核比结合能(约 \(7.6\text{MeV/核子}\))低于中等质量核(约 \(8.5\text{MeV/核子}\))。每次裂变伴生约2.5个中子，可维持链式反应。\(\ce{^{235}U}\) 可由热中子(\(0.03eV\))诱发裂变，而 \(\ce{^{238}U}\) 需快中子(\(>1\text{MeV}\))。临界体积是维持自持链式反应的最小体积，利用中子减速剂(石墨、重水)可提高反应效率。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.20</span><div class="kc-tags"><span class="tag tag-must">必考</span> </div></div>
+          <div class="kc-label">核聚变</div>
+          <div class="kc-body"><span class="kc-type">概念</span><p>核聚变(nuclear fusion)是两个轻原子核结合成较重原子核的过程。由于比结合能曲线，轻核(如氘、氚)聚合成中等质量核时比结合能增大，释放能量。典型聚变反应：\(\ce{^2_1H + ^3_1H 
+ightarrow ^4_2He + n + 17.6MeV}\)。聚变需极高温度(约 \(10^8 \sim 10^{10}\text{K}\))使核子获得足够动能克服库仑势垒，故又称热核反应。劳森判据给出自持聚变条件：等离子体温度、密度和约束时间需满足一定关系。太阳等恒星的能源来自聚变(质子-质子循环和碳循环)。人造聚变包括氢弹(惯性约束)和可控聚变(磁约束，如托卡马克装置)。中国EAST装置(东方超环)在2017年实现了 \(101.2s\) 稳态高约束等离子体运行。</p></div>
+        </div>
+        <div class="kc-card">
+          <div class="kc-header"><span class="kc-id">KC8.21</span><div class="kc-tags"><span class="tag tag-nice">了解</span> </div></div>
+          <div class="kc-label">核能应用</div>
+          <div class="kc-body"><span class="kc-type">事实</span><p>核能的应用主要包括以下几方面：(1)核能发电——1954年苏联建成世界上第一座原子能发电站，利用核裂变链式反应放热发电。我国1958年建成第一座重水型原子反应堆。(2)核武器——原子弹(基于核裂变，如1945年投于广岛的 \(\ce{^{235}U}\) 弹"小男孩")、氢弹(裂变触发聚变，三相弹加 \(\ce{^{238}U}\) 外壳增强威力)、中子弹(增强聚变辐射，减弱冲击波和放射性沾染)。(3)放射性同位素应用——医学(放射治疗、示踪诊断)、工业(无损检测、辐照改性)、农业(辐射育种)。(4)聚变能前景——可控热核聚变是人类的终极能源目标，国际热核聚变实验堆(ITER)和中国聚变工程实验堆(CFETR)正在推进。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
+
+    <div class="inner-tp" id="quiz-ch8">
+      <div class="tp" id="quiz">
+  <div class="section-title">章节测试（26题）</div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">1</div><span class="qk">KC8.1 [选择]</span></div>
+      <div class="qt">谁在1896年首先发现了铀的放射现象？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 伦琴</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 贝克勒尔</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 居里夫妇</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 卢瑟福</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="C">
+      <div class="qh"><div class="qn">2</div><span class="qk">KC8.1 [选择]</span></div>
+      <div class="qt">1932年查德威克发现了什么粒子？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 质子</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 电子</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 中子</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 正电子</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">3</div><span class="qk">KC8.2 [选择]</span></div>
+      <div class="qt">原子核由什么组成？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 质子和中子</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 质子和电子</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 中子和电子</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 核子和电子</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">4</div><span class="qk">KC8.3 [选择]</span></div>
+      <div class="qt">什么是同位素？什么是同量异位素？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 同位素质子数相同中子数不同；同量异位素质量数相同质子数不同</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 同位素中子数相同；同量异位素质子数相同</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 同位素质量数相同；同量异位素中子数相同</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 两者含义相同</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="稳定核素分布在N约等于Z的曲线附近。重核区库仑斥力随Z增大而增强，需要增加中子来提供核力但不贡献库仑排斥，以维持稳定。">
+      <div class="qh"><div class="qn">5</div><span class="qk">KC8.4 [简答]</span></div>
+      <div class="qt">核素图上稳定核素有什么分布规律？为什么重核区中子数偏多？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="28.3 MeV">
+      <div class="qh"><div class="qn">6</div><span class="qk">KC8.5 [计算]</span></div>
+      <div class="qt">已知He-4原子质量为4.002603u，质子和中子质量分别为1.007825u和1.008665u，求其结合能。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">7</div><span class="qk">KC8.5 [选择]</span></div>
+      <div class="qt">原子核的结合能是指什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 将核分解为核子所需的能量</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 核子间的势能</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 核子的动能之和</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 原子核的总能量</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">8</div><span class="qk">KC8.6 [选择]</span></div>
+      <div class="qt">质量亏损的物理本质是什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 核子质量减少了</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 质量转化为结合能（E=mc^2）</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 测量误差</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 核子数量减少了</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">9</div><span class="qk">KC8.7 [选择]</span></div>
+      <div class="qt">比结合能曲线说明什么问题？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 轻核比结合能最大</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 中等质量核最稳定</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 重核比结合能最大</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 所有核素比结合能相同</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="轻核和重核比结合能较小，中等质量核比结合能最大。因此轻核聚变（比结合能从低到高）和重核裂变（从低到高）都能释放能量。">
+      <div class="qh"><div class="qn">10</div><span class="qk">KC8.7 [简答]</span></div>
+      <div class="qt">比结合能曲线有什么规律？如何解释核聚变和核裂变都能释放能量？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="（1）体积能，与\(A\)成正比，核力饱和性；（2）表面能，与\(A^{2/3}\)成正比；（3）库仑能，与\(Z(Z-1)/A^{1/3}\)成正比；（4）对称能和成对能。">
+      <div class="qh"><div class="qn">11</div><span class="qk">KC8.8 [简答]</span></div>
+      <div class="qt">半经验质量公式包含哪些项？各代表什么物理意义？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="轨道角动量；自旋角动量">
+      <div class="qh"><div class="qn">12</div><span class="qk">KC8.9 [填空]</span></div>
+      <div class="qt">原子核的自旋是核内所有质子和中子的____和____的矢量和。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="核磁矩比原子磁矩小约三个数量级，因为核磁子比玻尔磁子小约1836倍。因此在原子物理中核磁矩通常可忽略。">
+      <div class="qh"><div class="qn">13</div><span class="qk">KC8.10 [简答]</span></div>
+      <div class="qt">原子核磁矩与原子磁矩相比有什么特点？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="C">
+      <div class="qh"><div class="qn">14</div><span class="qk">KC8.11 [选择]</span></div>
+      <div class="qt">核力的基本性质不包括以下哪项？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>\(\text{短程力} \approx 10^{-15}\text{m}\)</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 与电荷无关</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 长程力</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 具有饱和性</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="（1）短程力，约\(10^{-15}\)m；（2）强相互作用，比电磁力强约100倍；（3）与电荷无关；（4）具有饱和性；（5）存在排斥芯。">
+      <div class="qh"><div class="qn">15</div><span class="qk">KC8.11 [简答]</span></div>
+      <div class="qt">试述核力的主要性质。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="核力饱和性指每个核子只与邻近核子作用，而非与所有核子作用。A>30的核素比结合能近似常数，说明结合能正比于A。">
+      <div class="qh"><div class="qn">16</div><span class="qk">KC8.12 [简答]</span></div>
+      <div class="qt">什么是核力的饱和性？如何从比结合能曲线看出？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="A">
+      <div class="qh"><div class="qn">17</div><span class="qk">KC8.13 [选择]</span></div>
+      <div class="qt">液滴模型和壳层模型分别侧重描述原子核的什么特性？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 液滴模型：静态特性；壳层模型：能级结构</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 液滴模型：衰变；壳层模型：核反应</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 两者相同</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 液滴模型：核力；壳层模型：磁矩</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="液体分子短程吸引；液滴电荷排斥">
+      <div class="qh"><div class="qn">18</div><span class="qk">KC8.14 [填空]</span></div>
+      <div class="qt">原子核液滴模型将核子间核力类比于____，质子库仑斥力类比于____。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">19</div><span class="qk">KC8.15 [选择]</span></div>
+      <div class="qt">壳层模型中的幻数是指什么？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 原子序数为奇数的数</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 使原子核特别稳定的中子数或质子数</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 核子总数</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 放射性元素的半衰期</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="C">
+      <div class="qh"><div class="qn">20</div><span class="qk">KC8.16 [选择]</span></div>
+      <div class="qt">a衰变时原子核放出什么粒子？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 电子</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 电磁波</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 氦原子核(He-4)</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 光子</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="a衰变放出He-4核，Z减2、A减4；b衰变放出电子和反中微子，Z增1、A不变；g衰变放出光子，Z和A均不变。">
+      <div class="qh"><div class="qn">21</div><span class="qk">KC8.16 [简答]</span></div>
+      <div class="qt">比较a、b、g三种放射衰变的本质。</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="约0.1%（1/1024）">
+      <div class="qh"><div class="qn">22</div><span class="qk">KC8.17 [计算]</span></div>
+      <div class="qt">某放射性核素半衰期为10天，100天后剩余比例约？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="用粒子轰击原子核使其发生变化的过程。表示为：靶核(入射粒子，出射粒子)剩余核，如14N(a,p)17O。">
+      <div class="qh"><div class="qn">23</div><span class="qk">KC8.18 [简答]</span></div>
+      <div class="qt">什么是原子核反应？如何表示？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="从比结合能曲线看，重核比结合能约7.5MeV/核子，低于中等质量核的约8.5MeV/核子，裂变后总结合能增大，释放能量。">
+      <div class="qh"><div class="qn">24</div><span class="qk">KC8.19 [简答]</span></div>
+      <div class="qt">为什么重核裂变能释放能量？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="两个轻核结合成较重核的过程。需要极高温度使核子具有足够动能克服库仑势垒，因此也称热核反应。">
+      <div class="qh"><div class="qn">25</div><span class="qk">KC8.20 [简答]</span></div>
+      <div class="qt">什么是核聚变？需要什么条件？</div>
+      <div class="qi"><input type="text" placeholder="输入答案..."></div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+    <div class="qc" data-a="B">
+      <div class="qh"><div class="qn">26</div><span class="qk">KC8.21 [选择]</span></div>
+      <div class="qt">世界上第一座原子能发电站于哪一年建成？</div>
+      <div class="qo">
+        <div class="qopt" data-v="A" onclick="pick(this)"><span>A. 1942年</span></div>
+        <div class="qopt" data-v="B" onclick="pick(this)"><span>B. 1954年</span></div>
+        <div class="qopt" data-v="C" onclick="pick(this)"><span>C. 1964年</span></div>
+        <div class="qopt" data-v="D" onclick="pick(this)"><span>D. 1945年</span></div>
+      </div>
+      <div class="qa"><button class="q-btn q-btn-submit" onclick="chk(this)">提交</button><button class="q-btn q-btn-show" onclick="shw(this)">答案</button></div>
+    </div>
+</div>
+    </div>
+  </div>
+
+<div class="ft">原子物理学 · 交互式学习笔记 · 合辑</div>
+</div>
+
+<script>
+function switchChapter(id){
+  document.querySelectorAll('.ch-btn').forEach(function(b){b.classList.remove('active')});
+  document.querySelectorAll('.ch-tp').forEach(function(t){t.classList.remove('active')});
+  var btn = document.querySelector('.ch-btn[data-ch="'+id+'"]');
+  if(btn) btn.classList.add('active');
+  var pane = document.getElementById('ch-'+id);
+  if(pane){
+    pane.classList.add('active');
+    // Reset inner tab to 知识清单
+    pane.querySelectorAll('.inner-btn').forEach(function(b){b.classList.remove('active')});
+    pane.querySelectorAll('.inner-tp').forEach(function(t){t.classList.remove('active')});
+    var firstBtn = pane.querySelector('.inner-btn');
+    if(firstBtn) firstBtn.classList.add('active');
+    var firstTp = document.getElementById('kc-'+id);
+    if(firstTp) firstTp.classList.add('active');
+  }
+}
+
+function innerTab(ch,tab){
+  var pane = document.getElementById('ch-'+ch);
+  if(!pane) return;
+  pane.querySelectorAll('.inner-btn').forEach(function(b){b.classList.remove('active')});
+  pane.querySelectorAll('.inner-tp').forEach(function(t){t.classList.remove('active')});
+  var btn = pane.querySelector('.inner-btn[onclick*="'+tab+'"]');
+  if(btn) btn.classList.add('active');
+  var tp = document.getElementById(tab+'-'+ch);
+  if(tp) tp.classList.add('active');
+}
+
+function toggleSection(el){
+  var c = el.closest('.sec');
+  if(c) c.classList.toggle('open');
+}
+
+function pick(e){
+  var c = e.closest('.qc');
+  if(!c) return;
+  c.querySelectorAll('.qopt').forEach(function(o){o.classList.remove('selected')});
+  e.classList.add('selected');
+}
+
+function chk(b){
+  var c = b.closest('.qc');
+  if(!c) return;
+  var a = c.getAttribute('data-a');
+  var s = c.querySelector('.qopt.selected');
+  if(s){
+    c.querySelectorAll('.qopt').forEach(function(o){
+      if(o.getAttribute('data-v')===a) o.classList.add('correct');
+      else if(o.classList.contains('selected')) o.classList.add('wrong');
+    });
+  }else{
+    var i = c.querySelector('.qi input');
+    if(i){
+      if(i.value.trim()===a) i.style.borderColor='#28a745';
+      else i.style.borderColor='#d45a5a';
+    }
+  }
+}
+
+function shw(b){
+  var c = b.closest('.qc');
+  if(!c) return;
+  var d = c.querySelector('.qas');
+  if(d){d.remove();return}
+  var v = document.createElement('div');
+  v.className='qas';
+  v.innerHTML='<strong>答案:</strong> ' + c.getAttribute('data-a');
+  c.appendChild(v);
+  if(typeof renderMathInElement==='function') renderMathInElement(v,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+}
+</script>
+</body>
+</html>
