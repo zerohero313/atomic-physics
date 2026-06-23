@@ -68,14 +68,9 @@
 
 ### 方法二：在线访问（GitHub Pages）
 
-部署后可直接访问：
+可直接访问：
 [https://zerohero313.github.io/atomic-physics/](https://zerohero313.github.io/atomic-physics/)
 
-部署步骤：
-1. 上传 `index.html` 和 `README.md` 到 GitHub 仓库
-2. 仓库 Settings → Pages → Source 选 **Deploy from a branch**
-3. Branch 选 `main`，文件夹选 `/ (root)`，点 Save
-4. 等待 1-2 分钟，访问上面链接即可
 
 ---
 
@@ -88,14 +83,6 @@
 
 ---
 
-## 📂 文件结构
-
-```
-/
-├── index.html                    # 主文件（所有章节合辑）
-├──  README.md                  # 本文件
-└── ch2.html ~ ch8.html         # 单章独立文件（可选）
-```
 
 ---
 
